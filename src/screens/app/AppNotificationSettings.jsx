@@ -2,14 +2,14 @@ import { useState } from 'react'
 
 function IOSToggle({ on, onClick }) {
   return (
-    <div onClick={onClick} style={{ width: '51px', height: '31px', borderRadius: '16px', background: on ? '#34C759' : '#E5E5EA', position: 'relative', flexShrink: 0, cursor: 'pointer', transition: 'background 0.15s' }}>
+    <div onClick={onClick} style={{ width: '51px', height: '31px', borderRadius: '16px', background: on ? '#0D9488' : '#E5E7EB', position: 'relative', flexShrink: 0, cursor: 'pointer', transition: 'background 0.15s' }}>
       <div style={{ position: 'absolute', top: '2px', left: on ? '22px' : '2px', width: '27px', height: '27px', borderRadius: '50%', background: '#fff', boxShadow: '0 2px 4px rgba(0,0,0,0.25)', transition: 'left 0.15s' }} />
     </div>
   )
 }
 
 function SectionHeader({ title }) {
-  return <div style={{ padding: '20px 20px 8px', fontSize: '13px', fontWeight: 700, color: '#8E8E93', textTransform: 'uppercase', letterSpacing: '0.06em' }}>{title}</div>
+  return <div style={{ padding: '20px 20px 8px', fontSize: '11px', fontWeight: 600, color: '#9CA3AF', textTransform: 'uppercase', letterSpacing: '0.08em', background: '#F5F5F0' }}>{title}</div>
 }
 
 export default function AppNotificationSettings({ onNavigate, onBack }) {

@@ -18,7 +18,7 @@ export default function AppNotifications({ onNavigate }) {
           <span style={{ fontSize: '15px', fontWeight: 700 }}>9:41</span>
           <div style={{ fontSize: '12px' }}>●●● WiFi 🔋</div>
         </div>
-        <div style={{ width: '40px', height: '4px', background: '#DFE1E6', borderRadius: '2px', margin: '4px auto 0' }} />
+        <div style={{ width: '36px', height: '4px', background: '#E5E7EB', borderRadius: '2px', margin: '10px auto 0' }} />
 
         <div style={{ padding: '14px 20px 8px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <div style={{ fontWeight: 700, fontSize: '20px', color: '#000' }}>Notifications</div>

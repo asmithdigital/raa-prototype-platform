@@ -12,7 +12,7 @@ function TabBar({ active, onNavigate }) {
 }
 
 function SectionHeader({ title }) {
-  return <div style={{ padding: '20px 20px 8px', fontSize: '13px', fontWeight: 700, color: '#8E8E93', textTransform: 'uppercase', letterSpacing: '0.06em' }}>{title}</div>
+  return <div style={{ padding: '20px 20px 8px', fontSize: '11px', fontWeight: 600, color: '#9CA3AF', textTransform: 'uppercase', letterSpacing: '0.08em', background: '#F5F5F0' }}>{title}</div>
 }
 
 function ListRow({ label, sublabel, external, last, onClick }) {

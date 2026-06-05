@@ -8,8 +8,8 @@ export default function PhoneFrame({ children, title, screenId }) {
       )}
       <div style={{
         position: 'relative',
-        width: '375px',
-        height: '812px',
+        width: '390px',
+        height: '844px',
         background: '#1a1a1a',
         borderRadius: '50px',
         border: '8px solid #1a1a1a',

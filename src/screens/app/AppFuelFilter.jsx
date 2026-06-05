@@ -2,7 +2,7 @@ import { useState } from 'react'
 
 function IOSToggle({ on, onClick }) {
   return (
-    <div onClick={onClick} style={{ width: '51px', height: '31px', borderRadius: '16px', background: on ? '#34C759' : '#E5E5EA', position: 'relative', flexShrink: 0, cursor: 'pointer', transition: 'background 0.15s' }}>
+    <div onClick={onClick} style={{ width: '51px', height: '31px', borderRadius: '16px', background: on ? '#0D9488' : '#E5E7EB', position: 'relative', flexShrink: 0, cursor: 'pointer', transition: 'background 0.15s' }}>
       <div style={{ position: 'absolute', top: '2px', left: on ? '22px' : '2px', width: '27px', height: '27px', borderRadius: '50%', background: '#fff', boxShadow: '0 2px 4px rgba(0,0,0,0.25)', transition: 'left 0.15s' }} />
     </div>
   )
@@ -26,7 +26,7 @@ export default function AppFuelFilter({ onNavigate }) {
 
       {/* Bottom sheet */}
       <div style={{ background: '#fff', borderRadius: '20px 20px 0 0', flex: 1, marginTop: '-20px', boxShadow: '0 -4px 20px rgba(0,0,0,0.12)' }}>
-        <div style={{ width: '40px', height: '4px', background: '#DFE1E6', borderRadius: '2px', margin: '12px auto 0' }} />
+        <div style={{ width: '36px', height: '4px', background: '#E5E7EB', borderRadius: '2px', margin: '12px auto 0' }} />
 
         <div style={{ padding: '16px 20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '4px' }}>
           <div style={{ fontWeight: 700, fontSize: '18px', color: '#000' }}>Filter fuel</div>

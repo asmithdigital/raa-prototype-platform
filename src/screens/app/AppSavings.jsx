@@ -32,7 +32,7 @@ export default function AppSavings({ onNavigate, onBack }) {
 
       <div style={{ background: '#fff', borderRadius: '20px 20px 0 0', marginTop: '-24px' }}>
         <div style={{ padding: '24px 20px 8px' }}>
-          <div style={{ fontWeight: 700, fontSize: '13px', color: '#8E8E93', textTransform: 'uppercase', letterSpacing: '0.06em' }}>RAA Rewards</div>
+          <div style={{ fontWeight: 600, fontSize: '11px', color: '#9CA3AF', textTransform: 'uppercase', letterSpacing: '0.08em' }}>RAA Rewards</div>
         </div>
         {[
           { name: 'BP Fuel discount', value: '$312.40', icon: '⛽', sub: '8¢/L — 39 transactions' },
@@ -51,7 +51,7 @@ export default function AppSavings({ onNavigate, onBack }) {
         ))}
 
         <div style={{ padding: '20px 20px 8px', marginTop: '8px' }}>
-          <div style={{ fontWeight: 700, fontSize: '13px', color: '#8E8E93', textTransform: 'uppercase', letterSpacing: '0.06em' }}>RAA products & policies</div>
+          <div style={{ fontWeight: 600, fontSize: '11px', color: '#9CA3AF', textTransform: 'uppercase', letterSpacing: '0.08em' }}>RAA products & policies</div>
         </div>
         {[
           { name: 'Multi-policy discount', value: '$120.00', icon: '🏠', sub: 'Home + Car insurance' },

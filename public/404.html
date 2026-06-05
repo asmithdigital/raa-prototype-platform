@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <script>
+      var path = window.location.pathname;
+      var base = '/raa-prototype-platform';
+      var route = path.replace(base, '');
+      if (route && route !== '/') {
+        sessionStorage.setItem('spa_redirect', route);
+      }
+      window.location.replace(base + '/');
+    </script>
+  </head>
+  <body></body>
+</html>

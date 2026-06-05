@@ -37,24 +37,23 @@ export default function AppFuelMap({ onNavigate }) {
 
         {/* Fuel pins */}
         {[
-          { x: 68, y: 155, price: '188.9', raa: true, selected: false },
-          { x: 190, y: 135, price: '191.5', raa: false, selected: false },
-          { x: 265, y: 225, price: '186.9', raa: true, selected: true },
-          { x: 115, y: 285, price: '193.0', raa: false, selected: false },
-          { x: 315, y: 140, price: '189.9', raa: true, selected: false },
+          { x: 68, y: 155, price: '188.9', raa: true, cheapest: false },
+          { x: 190, y: 135, price: '191.5', raa: false, cheapest: false },
+          { x: 265, y: 225, price: '186.9', raa: true, cheapest: true },
+          { x: 115, y: 285, price: '193.0', raa: false, cheapest: false },
+          { x: 315, y: 140, price: '189.9', raa: true, cheapest: false },
         ].map((pin, i) => (
-          <div key={i} style={{ position: 'absolute', left: `${pin.x}px`, top: `${pin.y + 50}px`, transform: 'translate(-50%, -100%)', zIndex: 5 }}>
+          <div key={i} style={{ position: 'absolute', left: `${pin.x}px`, top: `${pin.y + 50}px`, transform: `translate(-50%, -100%) ${pin.cheapest ? 'scale(1.05)' : 'scale(1)'}`, zIndex: pin.cheapest ? 8 : 5 }}>
             <div style={{
-              background: pin.selected ? '#172B4D' : pin.raa ? '#172B4D' : '#fff',
-              color: pin.raa ? '#FFD100' : '#172B4D',
-              border: pin.selected ? '2px solid #FFD100' : pin.raa ? '2px solid #FFD100' : '2px solid #DFE1E6',
-              borderRadius: '8px', padding: '5px 9px', fontSize: '12px', fontWeight: 700, whiteSpace: 'nowrap',
-              boxShadow: pin.selected ? '0 3px 12px rgba(0,0,0,0.3)' : '0 2px 8px rgba(0,0,0,0.18)',
-              transform: pin.selected ? 'scale(1.1)' : 'scale(1)',
+              background: pin.cheapest ? '#FFD100' : '#FFFFFF',
+              color: '#1A1A1A',
+              border: pin.cheapest ? '2px solid #1A1A1A' : '1.5px solid #9CA3AF',
+              borderRadius: '10px', padding: '5px 9px', fontSize: '12px', fontWeight: 700, whiteSpace: 'nowrap',
+              boxShadow: pin.cheapest ? '0 3px 12px rgba(0,0,0,0.25)' : '0 2px 6px rgba(0,0,0,0.14)',
             }}>
               {pin.price}¢
             </div>
-            <div style={{ width: '2px', height: '8px', background: pin.raa ? '#172B4D' : '#8993A4', margin: '0 auto' }} />
+            <div style={{ width: '2px', height: '8px', background: '#9CA3AF', margin: '0 auto' }} />
           </div>
         ))}
 
@@ -64,11 +63,12 @@ export default function AppFuelMap({ onNavigate }) {
             ⚙ Filter
           </div>
           {[
-            { label: '⭐ RAA Discount', active: true },
+            { label: 'RAA Discount', active: true },
             { label: '♥ Favourites', active: false },
             { label: 'Unleaded 91 ▾', active: false },
           ].map(pill => (
-            <div key={pill.label} style={{ background: pill.active ? '#172B4D' : '#fff', color: pill.active ? '#FFD100' : '#172B4D', borderRadius: '20px', padding: '7px 14px', fontSize: '12px', fontWeight: 600, whiteSpace: 'nowrap', border: pill.active ? '2px solid #172B4D' : '1px solid #DFE1E6', boxShadow: '0 2px 6px rgba(0,0,0,0.1)', flexShrink: 0, cursor: 'pointer' }}>
+            <div key={pill.label} style={{ background: pill.active ? '#FFD100' : '#fff', color: '#172B4D', borderRadius: '20px', padding: '7px 14px', fontSize: '12px', fontWeight: 600, whiteSpace: 'nowrap', border: pill.active ? '1px solid #E5E7EB' : '1px solid #E5E7EB', boxShadow: '0 2px 6px rgba(0,0,0,0.1)', flexShrink: 0, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '4px' }}>
+              {pill.active && <span style={{ color: '#0D9488', fontWeight: 700 }}>✓</span>}
               {pill.label}
             </div>
           ))}
@@ -77,7 +77,7 @@ export default function AppFuelMap({ onNavigate }) {
 
       {/* Bottom sheet */}
       <div style={{ background: '#fff', borderRadius: '20px 20px 0 0', padding: '12px 20px 0', boxShadow: '0 -4px 20px rgba(0,0,0,0.12)', position: 'relative', zIndex: 10 }}>
-        <div style={{ width: '40px', height: '4px', background: '#DFE1E6', borderRadius: '2px', margin: '0 auto 16px' }} />
+        <div style={{ width: '36px', height: '4px', background: '#E5E7EB', borderRadius: '2px', margin: '10px auto 16px' }} />
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '10px' }}>
           <div>
             <div style={{ fontWeight: 700, fontSize: '17px', color: '#000' }}>BP Klemzig</div>
