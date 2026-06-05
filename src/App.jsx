@@ -1,10 +1,13 @@
 import { useState } from 'react'
-import { Routes, Route, Link } from 'react-router-dom'
+import { Routes, Route, Link, useParams } from 'react-router-dom'
 import Sidebar from './components/Sidebar.jsx'
 import HomePage from './pages/HomePage.jsx'
 import HowToUsePage from './pages/HowToUsePage.jsx'
 import PrototypeScreen from './pages/PrototypeScreen.jsx'
 import PresentMode from './pages/PresentMode.jsx'
+import PrototypeListPage from './pages/PrototypeListPage.jsx'
+import PrototypeDetailPage from './pages/PrototypeDetailPage.jsx'
+import prototypes from '../data/prototypes.json'
 
 function BeehiveIcon() {
   return (
@@ -15,6 +18,12 @@ function BeehiveIcon() {
       <path d="M26 20L32 24V32L26 36L20 32V24L26 20Z" fill="#172B4D"/>
     </svg>
   )
+}
+
+function PrototypesRouter() {
+  const { id } = useParams()
+  const isCategory = prototypes.categories.some(c => c.id === id)
+  return isCategory ? <PrototypeListPage /> : <PrototypeDetailPage />
 }
 
 function AppShell() {
@@ -73,6 +82,7 @@ function AppShell() {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/how-to-use" element={<HowToUsePage />} />
+          <Route path="/prototypes/:id" element={<PrototypesRouter />} />
           <Route path="/web/:screenId" element={<PrototypeScreen product="raa-web" />} />
           <Route path="/app/:screenId" element={<PrototypeScreen product="raa-app" />} />
         </Routes>

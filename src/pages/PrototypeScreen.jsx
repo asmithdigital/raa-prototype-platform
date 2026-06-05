@@ -26,6 +26,12 @@ import AppNotifications from '../screens/app/AppNotifications.jsx'
 import AppNotificationSettings from '../screens/app/AppNotificationSettings.jsx'
 import AppMyAccount from '../screens/app/AppMyAccount.jsx'
 
+const DESIGN_SYSTEM_BASE = 'https://asmithdigital.github.io/design-system-site/components/'
+
+function componentSlug(name) {
+  return name.toLowerCase().replace(/\s+/g, '-')
+}
+
 const WEB_COMPONENTS = {
   'qtb-general-info': QTBGeneralInfo,
   'qtb-home-address': QTBHomeAddress,
@@ -53,18 +59,7 @@ const APP_COMPONENTS = {
   'my-account': AppMyAccount,
 }
 
-const QTB_ORDER = [
-  'qtb-general-info','qtb-home-address','qtb-home-occupancy','qtb-your-home','qtb-security',
-  'qtb-contents','qtb-contents-summary','qtb-policy-holders','qtb-policy-holder-list','qtb-your-quote',
-]
-
-const MYA_ORDER = ['mya-dashboard','mya-personal-details','mya-my-products','mya-payment-details']
-
-const APP_ORDER = ['home','fuel-map','fuel-filter','savings','notifications','notification-settings','my-account']
-
-function getWebOrder(screenId) {
-  return screenId.startsWith('mya-') ? MYA_ORDER : QTB_ORDER
-}
+const allScreens = prototypes.prototypes.flatMap(p => p.screens)
 
 export default function PrototypeScreen({ product }) {
   const { screenId } = useParams()
@@ -74,14 +69,19 @@ export default function PrototypeScreen({ product }) {
   const isApp = product === 'raa-app'
 
   const dataId = isApp ? `app-${screenId}` : screenId
-  const screenData = prototypes.screens.find(s => s.id === dataId)
+  const screenData = allScreens.find(s => s.id === dataId)
 
-  const ScreenComponent = isWeb ? WEB_COMPONENTS[screenId] : APP_COMPONENTS[screenId]
+  const parentPrototype = prototypes.prototypes.find(p => p.screens.some(s => s.id === dataId))
 
-  const order = isWeb ? getWebOrder(screenId) : APP_ORDER
-  const currentIndex = order.indexOf(screenId)
-  const prevId = currentIndex > 0 ? order[currentIndex - 1] : null
-  const nextId = currentIndex < order.length - 1 ? order[currentIndex + 1] : null
+  const orderedScreenUrlIds = parentPrototype
+    ? [...parentPrototype.screens]
+        .sort((a, b) => a.order - b.order)
+        .map(s => s.route.split('/').pop())
+    : []
+
+  const currentIndex = orderedScreenUrlIds.indexOf(screenId)
+  const prevId = currentIndex > 0 ? orderedScreenUrlIds[currentIndex - 1] : null
+  const nextId = currentIndex < orderedScreenUrlIds.length - 1 ? orderedScreenUrlIds[currentIndex + 1] : null
   const basePath = isWeb ? '/web' : '/app'
 
   const goNext = () => nextId && navigate(`${basePath}/${nextId}`)
@@ -89,6 +89,9 @@ export default function PrototypeScreen({ product }) {
   const goTo = (id) => navigate(`${basePath}/${id}`)
 
   const presentUrl = `${import.meta.env.BASE_URL}present/${isWeb ? 'web' : 'app'}/${screenId}`
+  const browserUrl = parentPrototype?.browserUrl || 'online.raa.com.au'
+
+  const ScreenComponent = isWeb ? WEB_COMPONENTS[screenId] : APP_COMPONENTS[screenId]
 
   if (!ScreenComponent || !screenData) {
     return (
@@ -101,14 +104,18 @@ export default function PrototypeScreen({ product }) {
   }
 
   return (
-    <div className="content-inner" style={{ maxWidth: '1140px' }}>
+    <div className="content-inner" style={{ maxWidth: '1200px' }}>
       {/* Breadcrumb + Present button */}
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '24px' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '13px', color: '#5E6C84' }}>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '24px', gap: '16px', flexWrap: 'wrap' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '13px', color: '#5E6C84', flexWrap: 'wrap' }}>
           <Link to="/" style={{ color: '#5E6C84', textDecoration: 'none' }}>Home</Link>
           <span>›</span>
-          <span>{isWeb ? 'RAA Web' : 'RAA App'}</span>
-          <span>›</span>
+          {parentPrototype && (
+            <>
+              <Link to={`/prototypes/${parentPrototype.id}`} style={{ color: '#5E6C84', textDecoration: 'none' }}>{parentPrototype.name}</Link>
+              <span>›</span>
+            </>
+          )}
           <span style={{ color: '#172B4D', fontWeight: 500 }}>{screenData.name}</span>
         </div>
         <a
@@ -120,7 +127,7 @@ export default function PrototypeScreen({ product }) {
             background: '#172B4D', color: '#FFD100',
             padding: '9px 18px', borderRadius: '6px',
             fontWeight: 700, fontSize: '13px', textDecoration: 'none',
-            letterSpacing: '0.01em',
+            letterSpacing: '0.01em', flexShrink: 0,
           }}
         >
           ▶ Present
@@ -130,14 +137,6 @@ export default function PrototypeScreen({ product }) {
       {/* Screen title */}
       <div style={{ marginBottom: '28px' }}>
         <h1 style={{ marginBottom: '8px', fontSize: '24px' }}>{screenData.name}</h1>
-        {screenData.stepLabel && (
-          <div style={{ display: 'flex', gap: '8px', alignItems: 'center', marginBottom: '12px' }}>
-            <span style={{ fontSize: '12px', background: '#DEEBFF', color: '#0052CC', padding: '3px 8px', borderRadius: '4px', fontWeight: 600 }}>
-              Step {screenData.step} of {screenData.totalSteps}
-            </span>
-            <span style={{ fontSize: '13px', color: '#5E6C84' }}>{screenData.stepLabel}</span>
-          </div>
-        )}
         <p style={{ fontSize: '14px', color: '#42526E', lineHeight: 1.7, maxWidth: '680px' }}>
           {screenData.description}
         </p>
@@ -146,7 +145,7 @@ export default function PrototypeScreen({ product }) {
       {/* Frame */}
       <div style={{ marginBottom: '40px' }}>
         {isWeb ? (
-          <BrowserFrame url="online.raa.com.au/quote/home">
+          <BrowserFrame url={browserUrl}>
             <ScreenComponent onNext={goNext} onBack={goBack} onNavigate={goTo} />
           </BrowserFrame>
         ) : (
@@ -162,30 +161,37 @@ export default function PrototypeScreen({ product }) {
           <div style={{ fontSize: '11px', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#5E6C84', marginBottom: '8px' }}>Components</div>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
             {screenData.components.map(c => (
-              <span key={c} style={{ fontSize: '12px', background: '#F4F5F7', color: '#172B4D', padding: '3px 8px', borderRadius: '4px', border: '1px solid #DFE1E6', fontFamily: 'monospace' }}>
+              <a
+                key={c}
+                href={`${DESIGN_SYSTEM_BASE}${componentSlug(c)}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  fontSize: '12px', background: '#F4F5F7', color: '#172B4D',
+                  padding: '3px 8px', borderRadius: '4px', border: '1px solid #DFE1E6',
+                  fontFamily: 'monospace', textDecoration: 'none',
+                }}
+                title={`View ${c} in Apiary design system`}
+              >
                 {c}
-              </span>
+              </a>
             ))}
           </div>
         </div>
+        {parentPrototype && (
+          <div>
+            <div style={{ fontSize: '11px', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#5E6C84', marginBottom: '8px' }}>Prototype</div>
+            <Link to={`/prototypes/${parentPrototype.id}`} style={{ fontSize: '13px', color: '#0052CC' }}>{parentPrototype.name}</Link>
+          </div>
+        )}
         <div>
-          <div style={{ fontSize: '11px', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#5E6C84', marginBottom: '8px' }}>Journey</div>
-          <span style={{ fontSize: '13px', color: '#172B4D' }}>{screenData.journey}</span>
+          <div style={{ fontSize: '11px', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#5E6C84', marginBottom: '8px' }}>Screen</div>
+          <span style={{ fontSize: '13px', color: '#172B4D' }}>#{screenData.order} of {parentPrototype?.screens.length ?? '?'}</span>
         </div>
         <div>
           <div style={{ fontSize: '11px', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#5E6C84', marginBottom: '8px' }}>Status</div>
-          <span style={{ fontSize: '13px', color: '#36B37E', fontWeight: 600 }}>● {screenData.status}</span>
+          <span style={{ fontSize: '13px', color: '#36B37E', fontWeight: 600 }}>● {parentPrototype?.status ?? 'current'}</span>
         </div>
-        <div>
-          <div style={{ fontSize: '11px', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#5E6C84', marginBottom: '8px' }}>Last updated</div>
-          <span style={{ fontSize: '13px', color: '#172B4D' }}>June 2026</span>
-        </div>
-      </div>
-
-      {/* Testing notes */}
-      <div style={{ marginBottom: '32px', padding: '20px 24px', background: '#F4F5F7', borderRadius: '8px', border: '2px dashed #DFE1E6' }}>
-        <div style={{ fontSize: '13px', fontWeight: 600, color: '#5E6C84', marginBottom: '6px' }}>User testing notes</div>
-        <div style={{ fontSize: '13px', color: '#8993A4' }}>No testing notes yet. Add observations from usability sessions here.</div>
       </div>
 
       {/* Prev / Next */}

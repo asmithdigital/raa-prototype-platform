@@ -1,171 +1,228 @@
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import { useRef } from 'react'
 import prototypes from '../../data/prototypes.json'
 
-const qtbScreens = prototypes.screens.filter(s => s.product === 'raa-web')
-const myaScreens = prototypes.screens.filter(s => s.product === 'raa-web-mya')
-const appScreens = prototypes.screens.filter(s => s.product === 'raa-app')
+function formatDate(iso) {
+  const [year, month] = iso.split('-')
+  const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
+  return `${months[parseInt(month, 10) - 1]} ${year}`
+}
 
-const PRODUCTS = [
-  {
-    id: 'raa-web',
-    icon: '🌐',
-    name: 'RAA Web — Quote to Buy',
-    subtitle: 'Home insurance online flow',
-    desc: 'The 5-step quote and purchase flow for RAA home and contents insurance. Interactive screens — click through the full flow.',
-    screens: qtbScreens,
-    browseLink: '/web/qtb-general-info',
-    presentLink: `${import.meta.env.BASE_URL}present/web/qtb-general-info`,
-    status: 'Production',
-    statusColor: '#36B37E',
-    bg: '#FFFAE6',
-    accent: '#FFD100',
-  },
-  {
-    id: 'raa-web-mya',
-    icon: '👤',
-    name: 'RAA Web — My Account',
-    subtitle: 'Logged-in account management',
-    desc: 'The logged-in account portal — dashboard, personal details, products and policies, payment details. Navigate between screens.',
-    screens: myaScreens,
-    browseLink: '/web/mya-dashboard',
-    presentLink: `${import.meta.env.BASE_URL}present/web/mya-dashboard`,
-    status: 'Prototype',
-    statusColor: '#0052CC',
-    bg: '#DEEBFF',
-    accent: '#0052CC',
-  },
-  {
-    id: 'raa-app',
-    icon: '📱',
-    name: 'RAA Mobile App',
-    subtitle: 'iOS & Android member app',
-    desc: 'The member app — home screen, fuel prices map, rewards and savings, notifications, and account. Tap to navigate between screens.',
-    screens: appScreens,
-    browseLink: '/app/home',
-    presentLink: `${import.meta.env.BASE_URL}present/app/home`,
-    status: 'Production',
-    statusColor: '#36B37E',
-    bg: '#E3FCEF',
-    accent: '#36B37E',
-  },
-]
+function StatusBadge({ status }) {
+  const styles = {
+    production: { bg: '#E3FCEF', color: '#006644' },
+    prototype:  { bg: '#DEEBFF', color: '#0052CC' },
+    archived:   { bg: '#F4F5F7', color: '#5E6C84' },
+  }
+  const s = styles[status] || styles.archived
+  return (
+    <span style={{ fontSize: '11px', fontWeight: 600, background: s.bg, color: s.color, padding: '3px 8px', borderRadius: '10px', whiteSpace: 'nowrap' }}>
+      ● {status.charAt(0).toUpperCase() + status.slice(1)}
+    </span>
+  )
+}
 
 export default function HomePage() {
+  const navigate = useNavigate()
+  const categoryRefs = useRef({})
+
+  const categoryMap = Object.fromEntries(prototypes.categories.map(c => [c.id, c]))
+
+  const sorted = [...prototypes.prototypes].sort((a, b) => b.lastUpdated.localeCompare(a.lastUpdated))
+
+  const totalScreens = prototypes.prototypes.reduce((n, p) => n + p.screens.length, 0)
+
+  function scrollToCategory(id) {
+    const el = categoryRefs.current[id]
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  }
+
   return (
-    <div className="content-inner">
-      {/* Hero */}
-      <div style={{ marginBottom: '48px' }}>
-        <div style={{ display: 'inline-block', background: '#FFFAE6', color: '#172B4D', fontSize: '12px', fontWeight: 600, padding: '4px 12px', borderRadius: '4px', marginBottom: '16px', letterSpacing: '0.02em', border: '1px solid #FFD100' }}>
-          RAA Prototype Platform
-        </div>
-        <h1 style={{ marginBottom: '16px', fontSize: '32px' }}>Interactive prototypes for user testing</h1>
-        <p style={{ fontSize: '16px', color: '#42526E', lineHeight: 1.7, maxWidth: '640px', marginBottom: '28px' }}>
-          Real-looking, clickable screens for RAA's web and app products. Use these to run user testing sessions — screens respond to taps and clicks, and Present mode shows them full-screen without any chrome.
+    <div className="content-inner" style={{ maxWidth: '1100px' }}>
+      {/* Header */}
+      <div style={{ marginBottom: '40px' }}>
+        <h1 style={{ marginBottom: '10px', fontSize: '30px' }}>RAA Prototype Platform</h1>
+        <p style={{ fontSize: '16px', color: '#42526E', lineHeight: 1.7, maxWidth: '600px', marginBottom: '24px' }}>
+          Browse and present real-looking prototypes of RAA products. Built to replace Axure.
         </p>
-        <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
-          <Link
-            to="/how-to-use"
-            style={{
-              display: 'inline-flex', alignItems: 'center', gap: '8px',
-              background: '#172B4D', color: '#FFD100', padding: '10px 20px',
-              borderRadius: '4px', fontWeight: 700, fontSize: '14px', textDecoration: 'none',
-            }}
-          >
-            How to run a user test →
-          </Link>
-          <Link
-            to="/web/qtb-general-info"
-            style={{
-              display: 'inline-flex', alignItems: 'center', gap: '8px',
-              background: '#ffffff', color: '#172B4D', padding: '10px 20px',
-              borderRadius: '4px', fontWeight: 600, fontSize: '14px', textDecoration: 'none',
-              border: '1px solid #DFE1E6',
-            }}
-          >
-            Browse all screens
-          </Link>
+
+        {/* Category pills */}
+        <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+          {prototypes.categories.map(cat => (
+            <button
+              key={cat.id}
+              onClick={() => scrollToCategory(cat.id)}
+              style={{
+                display: 'inline-flex', alignItems: 'center', gap: '6px',
+                background: '#F4F5F7', border: '1px solid #DFE1E6',
+                borderRadius: '20px', padding: '6px 14px',
+                fontSize: '13px', fontWeight: 600, color: '#172B4D',
+                cursor: 'pointer',
+              }}
+            >
+              <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: cat.color, display: 'inline-block' }} />
+              {cat.name}
+            </button>
+          ))}
         </div>
       </div>
 
       {/* Stats */}
-      <div style={{ display: 'flex', gap: '16px', marginBottom: '48px', flexWrap: 'wrap' }}>
+      <div style={{ display: 'flex', gap: '16px', marginBottom: '40px', flexWrap: 'wrap' }}>
         {[
-          { label: 'Total screens', value: prototypes.screens.length },
-          { label: 'Prototypes', value: prototypes.products.length },
-          { label: 'Last updated', value: 'June 2026' },
-        ].map((stat) => (
-          <div key={stat.label} style={{
-            background: '#F4F5F7', borderRadius: '8px', padding: '20px 28px',
-            flex: '1', minWidth: '140px',
-          }}>
-            <div style={{ fontSize: '12px', color: '#5E6C84', fontWeight: 500, marginBottom: '6px', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
+          { label: 'Total screens', value: totalScreens },
+          { label: 'Prototypes', value: prototypes.prototypes.length },
+          { label: 'Last updated', value: formatDate(prototypes.meta.lastUpdated) },
+        ].map(stat => (
+          <div key={stat.label} style={{ background: '#F4F5F7', borderRadius: '8px', padding: '18px 24px', flex: '1', minWidth: '140px' }}>
+            <div style={{ fontSize: '11px', color: '#5E6C84', fontWeight: 600, marginBottom: '6px', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
               {stat.label}
             </div>
-            <div style={{ fontSize: '28px', fontWeight: 700, color: '#172B4D', lineHeight: 1 }}>
+            <div style={{ fontSize: '26px', fontWeight: 700, color: '#172B4D', lineHeight: 1 }}>
               {stat.value}
             </div>
           </div>
         ))}
       </div>
 
-      {/* Product cards */}
-      <h2 style={{ marginBottom: '8px' }}>Prototypes</h2>
-      <p style={{ fontSize: '14px', color: '#5E6C84', marginBottom: '24px' }}>Browse screens in the sidebar, or use Present mode for user testing sessions.</p>
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', marginBottom: '48px' }}>
-        {PRODUCTS.map(product => (
-          <div key={product.id} style={{
-            border: '1px solid #DFE1E6', borderRadius: '8px',
-            background: '#ffffff', overflow: 'hidden',
-            display: 'flex',
-          }}>
-            <div style={{ width: '6px', background: product.accent, flexShrink: 0 }} />
-            <div style={{ padding: '24px 28px', flex: 1, display: 'flex', gap: '20px', alignItems: 'flex-start' }}>
-              <div style={{ width: '48px', height: '48px', borderRadius: '10px', background: product.bg, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '24px', flexShrink: 0 }}>
-                {product.icon}
-              </div>
-              <div style={{ flex: 1, minWidth: 0 }}>
-                <div style={{ display: 'flex', alignItems: 'baseline', gap: '10px', marginBottom: '4px', flexWrap: 'wrap' }}>
-                  <h3 style={{ fontSize: '16px', fontWeight: 700, margin: 0 }}>{product.name}</h3>
-                  <span style={{ fontSize: '11px', fontWeight: 600, color: product.statusColor, background: product.bg, padding: '2px 8px', borderRadius: '10px' }}>
-                    ● {product.status}
-                  </span>
-                </div>
-                <div style={{ fontSize: '12px', color: '#5E6C84', marginBottom: '8px' }}>{product.subtitle} · {product.screens.length} screens</div>
-                <p style={{ fontSize: '14px', color: '#42526E', lineHeight: 1.6, margin: 0 }}>{product.desc}</p>
-              </div>
-              <div style={{ display: 'flex', gap: '8px', flexShrink: 0, alignItems: 'center' }}>
-                <Link
-                  to={product.browseLink}
-                  style={{
-                    display: 'inline-flex', alignItems: 'center',
-                    background: '#F4F5F7', color: '#172B4D',
-                    padding: '8px 16px', borderRadius: '4px', fontSize: '13px', fontWeight: 600,
-                    textDecoration: 'none', border: '1px solid #DFE1E6', whiteSpace: 'nowrap',
-                  }}
-                >
-                  Browse
-                </Link>
-                <a
-                  href={product.presentLink}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  style={{
-                    display: 'inline-flex', alignItems: 'center', gap: '6px',
-                    background: '#172B4D', color: '#FFD100',
-                    padding: '8px 16px', borderRadius: '4px', fontSize: '13px', fontWeight: 700,
-                    textDecoration: 'none', whiteSpace: 'nowrap',
-                  }}
-                >
-                  ▶ Present
-                </a>
-              </div>
-            </div>
-          </div>
-        ))}
+      {/* All prototypes table */}
+      <div style={{ marginBottom: '56px' }}>
+        <h2 style={{ marginBottom: '16px' }}>Latest Prototypes</h2>
+        <div style={{ border: '1px solid #DFE1E6', borderRadius: '8px', overflow: 'hidden' }}>
+          <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '13px' }}>
+            <thead>
+              <tr style={{ background: '#F4F5F7', borderBottom: '1px solid #DFE1E6' }}>
+                {['Name', 'Product', 'Status', 'Last Updated', 'Screens', 'Actions'].map(col => (
+                  <th key={col} style={{ padding: '10px 16px', textAlign: 'left', fontWeight: 700, color: '#42526E', fontSize: '11px', letterSpacing: '0.05em', textTransform: 'uppercase', whiteSpace: 'nowrap' }}>
+                    {col}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {sorted.map((proto, i) => {
+                const cat = categoryMap[proto.category]
+                const firstScreen = [...proto.screens].sort((a, b) => a.order - b.order)[0]
+                const presentUrl = firstScreen ? `${import.meta.env.BASE_URL}present${firstScreen.route}` : null
+                return (
+                  <tr key={proto.id} style={{ borderBottom: i < sorted.length - 1 ? '1px solid #DFE1E6' : 'none', background: '#fff' }}>
+                    <td style={{ padding: '12px 16px' }}>
+                      <Link to={`/prototypes/${proto.id}`} style={{ fontWeight: 600, color: '#172B4D', textDecoration: 'none' }}>
+                        {proto.name}
+                      </Link>
+                    </td>
+                    <td style={{ padding: '12px 16px' }}>
+                      {cat && (
+                        <span style={{ display: 'inline-flex', alignItems: 'center', gap: '5px', fontSize: '12px', color: cat.color, fontWeight: 600 }}>
+                          <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: cat.color, display: 'inline-block' }} />
+                          {cat.name}
+                        </span>
+                      )}
+                    </td>
+                    <td style={{ padding: '12px 16px' }}>
+                      <StatusBadge status={proto.status} />
+                    </td>
+                    <td style={{ padding: '12px 16px', color: '#42526E', whiteSpace: 'nowrap' }}>
+                      {formatDate(proto.lastUpdated)}
+                    </td>
+                    <td style={{ padding: '12px 16px', color: '#42526E' }}>
+                      {proto.screens.length}
+                    </td>
+                    <td style={{ padding: '12px 16px' }}>
+                      <div style={{ display: 'flex', gap: '6px' }}>
+                        <Link
+                          to={`/prototypes/${proto.id}`}
+                          style={{ fontSize: '12px', fontWeight: 600, padding: '5px 12px', borderRadius: '4px', background: '#F4F5F7', color: '#172B4D', textDecoration: 'none', border: '1px solid #DFE1E6', whiteSpace: 'nowrap' }}
+                        >
+                          Browse
+                        </Link>
+                        {presentUrl && (
+                          <a
+                            href={presentUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            style={{ fontSize: '12px', fontWeight: 700, padding: '5px 12px', borderRadius: '4px', background: '#172B4D', color: '#FFD100', textDecoration: 'none', whiteSpace: 'nowrap' }}
+                          >
+                            ▶ Present
+                          </a>
+                        )}
+                      </div>
+                    </td>
+                  </tr>
+                )
+              })}
+            </tbody>
+          </table>
+        </div>
       </div>
 
-      {/* How it connects */}
-      <h2 style={{ marginBottom: '20px' }}>How it connects</h2>
+      {/* Category sections */}
+      {prototypes.categories.map(cat => {
+        const items = prototypes.prototypes.filter(p => p.category === cat.id)
+        return (
+          <div
+            key={cat.id}
+            ref={el => { categoryRefs.current[cat.id] = el }}
+            style={{ marginBottom: '48px' }}
+          >
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '16px' }}>
+              <span style={{ width: '10px', height: '10px', borderRadius: '50%', background: cat.color, display: 'inline-block' }} />
+              <h2 style={{ margin: 0 }}>{cat.name}</h2>
+              <span style={{ fontSize: '12px', color: '#5E6C84', fontWeight: 500 }}>{cat.description}</span>
+            </div>
+
+            {items.length === 0 ? (
+              <div style={{ border: '1px dashed #DFE1E6', borderRadius: '8px', padding: '32px', textAlign: 'center', color: '#8993A4', fontSize: '14px' }}>
+                No prototypes in this category yet.
+              </div>
+            ) : (
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                {items.map(proto => {
+                  const firstScreen = [...proto.screens].sort((a, b) => a.order - b.order)[0]
+                  const presentUrl = firstScreen ? `${import.meta.env.BASE_URL}present${firstScreen.route}` : null
+                  return (
+                    <div key={proto.id} style={{ border: '1px solid #DFE1E6', borderRadius: '8px', background: '#fff', display: 'flex', overflow: 'hidden' }}>
+                      <div style={{ width: '4px', background: cat.color, flexShrink: 0 }} />
+                      <div style={{ padding: '20px 24px', flex: 1, display: 'flex', alignItems: 'center', gap: '16px', flexWrap: 'wrap' }}>
+                        <div style={{ flex: 1, minWidth: '200px' }}>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '4px' }}>
+                            <Link to={`/prototypes/${proto.id}`} style={{ fontSize: '15px', fontWeight: 700, color: '#172B4D', textDecoration: 'none' }}>
+                              {proto.name}
+                            </Link>
+                            <StatusBadge status={proto.status} />
+                          </div>
+                          <div style={{ fontSize: '13px', color: '#42526E', lineHeight: 1.5 }}>{proto.description}</div>
+                          <div style={{ fontSize: '12px', color: '#5E6C84', marginTop: '4px' }}>{proto.screens.length} screens · Updated {formatDate(proto.lastUpdated)}</div>
+                        </div>
+                        <div style={{ display: 'flex', gap: '8px', flexShrink: 0 }}>
+                          <Link
+                            to={`/prototypes/${proto.id}`}
+                            style={{ fontSize: '13px', fontWeight: 600, padding: '8px 16px', borderRadius: '4px', background: '#F4F5F7', color: '#172B4D', textDecoration: 'none', border: '1px solid #DFE1E6', whiteSpace: 'nowrap' }}
+                          >
+                            Browse
+                          </Link>
+                          {presentUrl && (
+                            <a
+                              href={presentUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              style={{ fontSize: '13px', fontWeight: 700, padding: '8px 16px', borderRadius: '4px', background: '#172B4D', color: '#FFD100', textDecoration: 'none', whiteSpace: 'nowrap' }}
+                            >
+                              ▶ Present
+                            </a>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  )
+                })}
+              </div>
+            )}
+          </div>
+        )
+      })}
+
+      {/* Connected platforms */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '0', border: '1px solid #DFE1E6', borderRadius: '8px', overflow: 'hidden', marginBottom: '48px' }}>
         {[
           {
@@ -173,25 +230,24 @@ export default function HomePage() {
             title: 'Design System',
             subtitle: 'Component specs and tokens',
             link: 'https://asmithdigital.github.io/design-system-site/',
-            isExternal: true,
             isCurrent: false,
+            comingSoon: false,
           },
           {
             icon: '🖼️',
             title: 'Prototype Platform',
             subtitle: 'Visual source of truth',
             link: null,
-            isExternal: false,
             isCurrent: true,
+            comingSoon: false,
           },
           {
             icon: '📊',
             title: 'Journey Management',
             subtitle: 'Experience data and insights',
-            link: null,
-            isExternal: false,
+            link: 'https://asmithdigital.github.io/journey-management-site/',
             isCurrent: false,
-            comingSoon: true,
+            comingSoon: false,
           },
         ].map((item, i) => (
           <div key={i} style={{
@@ -202,29 +258,15 @@ export default function HomePage() {
             textAlign: 'center',
           }}>
             <div style={{ fontSize: '28px', marginBottom: '12px' }}>{item.icon}</div>
-            <div style={{ fontSize: '14px', fontWeight: 700, color: '#172B4D', marginBottom: '6px' }}>
-              {item.title}
-            </div>
-            <div style={{ fontSize: '13px', color: '#42526E', marginBottom: '12px' }}>
-              {item.subtitle}
-            </div>
+            <div style={{ fontSize: '14px', fontWeight: 700, color: '#172B4D', marginBottom: '6px' }}>{item.title}</div>
+            <div style={{ fontSize: '13px', color: '#42526E', marginBottom: '12px' }}>{item.subtitle}</div>
             {item.isCurrent && (
               <div style={{ fontSize: '11px', background: '#FFD100', color: '#172B4D', padding: '3px 8px', borderRadius: '4px', display: 'inline-block', fontWeight: 600 }}>
                 YOU ARE HERE
               </div>
             )}
-            {item.comingSoon && (
-              <div style={{ fontSize: '11px', color: '#8993A4', fontWeight: 500 }}>
-                Coming soon
-              </div>
-            )}
-            {item.isExternal && (
-              <a
-                href={item.link}
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{ fontSize: '12px', color: '#0052CC', fontWeight: 500 }}
-              >
+            {item.link && !item.isCurrent && (
+              <a href={item.link} target="_blank" rel="noopener noreferrer" style={{ fontSize: '12px', color: '#0052CC', fontWeight: 500 }}>
                 Open ↗
               </a>
             )}

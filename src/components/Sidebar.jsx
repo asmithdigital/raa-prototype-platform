@@ -1,5 +1,5 @@
 import { NavLink, useLocation } from 'react-router-dom'
-import { useState } from 'react'
+import prototypes from '../../data/prototypes.json'
 
 const sectionHeader = {
   fontSize: '11px',
@@ -21,51 +21,14 @@ const navLinkStyle = (isActive) => ({
   lineHeight: '1.4',
 })
 
-const subNavLinkStyle = (isActive) => ({
-  display: 'block',
-  fontSize: '13px',
-  color: isActive ? '#0052CC' : '#42526E',
-  padding: '6px 16px 6px 28px',
-  background: isActive ? '#DEEBFF' : 'transparent',
-  borderLeft: isActive ? '3px solid #0052CC' : '3px solid transparent',
-  textDecoration: 'none',
-  lineHeight: '1.4',
-})
-
-const qtbScreens = [
-  { id: 'qtb-general-info', label: 'General info — Start' },
-  { id: 'qtb-home-address', label: 'General info — Address' },
-  { id: 'qtb-home-occupancy', label: 'General info — Occupancy' },
-  { id: 'qtb-your-home', label: 'Your home — Building' },
-  { id: 'qtb-security', label: 'Your home — Security' },
-  { id: 'qtb-contents', label: 'Your contents — Options' },
-  { id: 'qtb-contents-summary', label: 'Your contents — Summary' },
-  { id: 'qtb-policy-holders', label: 'Policy holders — Details' },
-  { id: 'qtb-policy-holder-list', label: 'Policy holders — List' },
-  { id: 'qtb-your-quote', label: 'Your quote' },
-]
-
-const myAccountScreens = [
-  { id: 'mya-dashboard', label: 'Dashboard' },
-  { id: 'mya-personal-details', label: 'Personal details' },
-  { id: 'mya-my-products', label: 'My products' },
-  { id: 'mya-payment-details', label: 'Payment details' },
-]
-
-const appScreens = [
-  { id: 'app-home', label: 'Home screen', path: 'home' },
-  { id: 'app-fuel-map', label: 'Fuel prices — Map', path: 'fuel-map' },
-  { id: 'app-fuel-filter', label: 'Fuel prices — Filter', path: 'fuel-filter' },
-  { id: 'app-savings', label: 'My savings', path: 'savings' },
-  { id: 'app-notifications', label: 'Notifications', path: 'notifications' },
-  { id: 'app-notification-settings', label: 'Notification settings', path: 'notification-settings' },
-  { id: 'app-my-account', label: 'My Account', path: 'my-account' },
-]
-
 export default function Sidebar({ isOpen, onClose }) {
   const location = useLocation()
-  const [qtbOpen, setQtbOpen] = useState(location.pathname.startsWith('/web/qtb'))
-  const [myaOpen, setMyaOpen] = useState(location.pathname.startsWith('/web/mya'))
+
+  const categoryMap = Object.fromEntries(prototypes.categories.map(c => [c.id, c]))
+  const byCategory = prototypes.categories.map(cat => ({
+    category: cat,
+    items: prototypes.prototypes.filter(p => p.category === cat.id),
+  }))
 
   return (
     <nav className={`sidebar${isOpen ? ' open' : ''}`} onClick={onClose}>
@@ -74,39 +37,56 @@ export default function Sidebar({ isOpen, onClose }) {
         <NavLink to="/" end style={({ isActive }) => navLinkStyle(isActive)}>Home</NavLink>
         <NavLink to="/how-to-use" style={({ isActive }) => navLinkStyle(isActive)}>How to use</NavLink>
 
-        <div style={sectionHeader}>RAA Web — QTB</div>
-        <div
-          onClick={() => setQtbOpen(!qtbOpen)}
-          style={{ ...navLinkStyle(location.pathname.startsWith('/web/qtb')), cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'space-between', userSelect: 'none' }}
-        >
-          <span>Quote to Buy</span>
-          <span style={{ fontSize: '10px', color: '#5E6C84', marginRight: '4px' }}>{qtbOpen ? '▲' : '▼'}</span>
-        </div>
-        {qtbOpen && qtbScreens.map((screen) => (
-          <NavLink key={screen.id} to={`/web/${screen.id}`} style={({ isActive }) => subNavLinkStyle(isActive)}>
-            {screen.label}
-          </NavLink>
-        ))}
+        <div style={sectionHeader}>Prototypes</div>
 
-        <div style={sectionHeader}>RAA Web — My Account</div>
-        <div
-          onClick={() => setMyaOpen(!myaOpen)}
-          style={{ ...navLinkStyle(location.pathname.startsWith('/web/mya')), cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'space-between', userSelect: 'none' }}
-        >
-          <span>My Account</span>
-          <span style={{ fontSize: '10px', color: '#5E6C84', marginRight: '4px' }}>{myaOpen ? '▲' : '▼'}</span>
-        </div>
-        {myaOpen && myAccountScreens.map((screen) => (
-          <NavLink key={screen.id} to={`/web/${screen.id}`} style={({ isActive }) => subNavLinkStyle(isActive)}>
-            {screen.label}
-          </NavLink>
-        ))}
+        {byCategory.map(({ category, items }) => (
+          <div key={category.id}>
+            <div style={{
+              fontSize: '11px',
+              fontWeight: 700,
+              letterSpacing: '0.06em',
+              textTransform: 'uppercase',
+              color: category.color,
+              padding: '12px 16px 4px',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '6px',
+            }}>
+              <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: category.color, display: 'inline-block', flexShrink: 0 }} />
+              {category.name}
+            </div>
 
-        <div style={sectionHeader}>RAA App</div>
-        {appScreens.map((screen) => (
-          <NavLink key={screen.id} to={`/app/${screen.path}`} style={({ isActive }) => navLinkStyle(isActive)}>
-            {screen.label}
-          </NavLink>
+            {items.length === 0 && (
+              <div style={{ fontSize: '13px', color: '#8993A4', padding: '6px 16px 6px 28px', fontStyle: 'italic' }}>
+                No prototypes yet
+              </div>
+            )}
+
+            {items.map((proto) => {
+              const isActive = location.pathname === `/prototypes/${proto.id}`
+              return (
+                <NavLink
+                  key={proto.id}
+                  to={`/prototypes/${proto.id}`}
+                  style={() => ({
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '8px',
+                    fontSize: '13px',
+                    color: isActive ? '#0052CC' : '#172B4D',
+                    padding: '6px 16px 6px 24px',
+                    background: isActive ? '#DEEBFF' : 'transparent',
+                    borderLeft: isActive ? '3px solid #0052CC' : '3px solid transparent',
+                    textDecoration: 'none',
+                    lineHeight: '1.4',
+                  })}
+                >
+                  <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: category.color, flexShrink: 0, opacity: 0.7 }} />
+                  {proto.name}
+                </NavLink>
+              )
+            })}
+          </div>
         ))}
 
         <div style={{ height: '40px' }} />

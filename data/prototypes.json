@@ -1,281 +1,242 @@
 {
-  "products": [
+  "meta": {
+    "lastUpdated": "2026-06-05",
+    "description": "RAA Prototype Platform — queryable by Slack bot and used by the prototype platform UI",
+    "slackBotInstructions": "Query this file to answer questions about existing prototypes, screens, components used, and product categories. Cross-reference with the design system at https://asmithdigital.github.io/design-system-site/data/components.json and journey management at https://asmithdigital.github.io/journey-management-site/data/journeys.json"
+  },
+  "categories": [
     {
       "id": "raa-web",
-      "name": "RAA Web — Quote to Buy (Home Insurance)",
-      "description": "5-step online quote and purchase flow for RAA home and contents insurance. Built on online.raa.com.au.",
-      "status": "production",
-      "lastScraped": "2026-06-04",
-      "scrapeSource": "https://online.raa.com.au/quote/home/general-info",
-      "figmaSource": "RAADS Figma file — QTB flow",
-      "designSystemRef": "raa-web"
-    },
-    {
-      "id": "raa-web-mya",
-      "name": "RAA Web — My Account",
-      "description": "Logged-in web account screens. Dashboard, personal details, products and policies, and payment details.",
-      "status": "prototype",
-      "lastScraped": "2026-06-05",
-      "scrapeSource": "Demo-My-Account Figma file",
-      "figmaSource": "Demo-My-Account",
-      "designSystemRef": "raa-web"
+      "name": "RAA Web",
+      "description": "Web product prototypes for raa.com.au and online.raa.com.au",
+      "color": "#0052CC"
     },
     {
       "id": "raa-app",
-      "name": "RAA Mobile App",
-      "description": "Native iOS/Android member app. Features: home screen, fuel prices map, rewards/savings, competitions, road service, member card, notifications, account settings.",
+      "name": "RAA App",
+      "description": "iOS and Android RAA member app prototypes",
+      "color": "#EA580C"
+    },
+    {
+      "id": "taskly",
+      "name": "Taskly",
+      "description": "Taskly product prototypes",
+      "color": "#2B7DE9"
+    }
+  ],
+  "prototypes": [
+    {
+      "id": "qtb-home-insurance",
+      "name": "Quote to Buy — Home Insurance",
+      "category": "raa-web",
+      "campaign": null,
       "status": "production",
-      "lastScraped": "2026-06-04",
-      "scrapeSource": "App Store — RAA app, screenshots captured manually",
-      "figmaSource": "App Squad Figma file (Josh)",
-      "designSystemRef": "raa-app"
-    }
-  ],
-  "screens": [
-    {
-      "id": "qtb-general-info",
-      "product": "raa-web",
-      "name": "General information — Start",
-      "step": 1,
-      "totalSteps": 5,
-      "stepLabel": "General information",
-      "description": "Entry point to the QTB flow. Member agrees to duty of care and privacy notice. Option to log in to pre-fill details. Cover type selection (Home and Contents, Home only, Contents only).",
-      "components": ["stepper-nav", "accordion", "checkbox", "radio-card", "primary-button"],
-      "journey": "quote-to-buy",
-      "userTestingNotes": "",
-      "status": "current"
+      "created": "2026-05-01",
+      "lastUpdated": "2026-06-05",
+      "description": "5-step online quote and purchase flow for RAA home and contents insurance. Covers general information, property details, contents options, policy holders, and the final quote screen.",
+      "figmaSource": "https://www.figma.com/design/ufpCoS9gbrNC1wpO9UFs1r/Demo-QTB",
+      "liveUrl": "https://online.raa.com.au/quote/home/general-info",
+      "browserUrl": "online.raa.com.au/quote/home",
+      "screens": [
+        {
+          "id": "qtb-general-info",
+          "name": "General information — Start",
+          "order": 1,
+          "description": "Entry point to the QTB flow. Member agrees to duty of care and privacy notice. Option to log in to pre-fill details. Cover type selection (Home and Contents, Home only, Contents only).",
+          "components": ["Stepper Nav", "Accordion", "Checkbox", "Radio Card", "Primary Button"],
+          "route": "/web/qtb-general-info"
+        },
+        {
+          "id": "qtb-home-address",
+          "name": "General information — Home address",
+          "order": 2,
+          "description": "Address search field with autocomplete. Address confirmed state shown with teal success card. Help link for addresses not found.",
+          "components": ["Stepper Nav", "Text Input", "Address Confirmed Card", "Primary Button"],
+          "route": "/web/qtb-home-address"
+        },
+        {
+          "id": "qtb-home-occupancy",
+          "name": "General information — Home occupancy",
+          "order": 3,
+          "description": "How is the home used? Radio card selection — I live in it, Holiday Home, Unoccupied. Conditional error alert if 4+ unrelated occupants selected.",
+          "components": ["Stepper Nav", "Radio Card", "Alert Banner", "Primary Button"],
+          "route": "/web/qtb-home-occupancy"
+        },
+        {
+          "id": "qtb-your-home",
+          "name": "Your home — Building information",
+          "order": 4,
+          "description": "Building type, strata title, external wall material, roof material, year built. Dropdown selects with inline validation errors in red.",
+          "components": ["Stepper Nav", "Dropdown Select", "Form Label", "Validation Error", "Primary Button"],
+          "route": "/web/qtb-your-home"
+        },
+        {
+          "id": "qtb-security",
+          "name": "Your home — Security and condition",
+          "order": 5,
+          "description": "Is the home in good condition? Does it have a security alarm? Yes/No radio cards. Right-side drawer panel for tooltip explanations (What counts as a security alarm?).",
+          "components": ["Stepper Nav", "Radio Card", "Info Tooltip", "Drawer Panel", "Primary Button"],
+          "route": "/web/qtb-security"
+        },
+        {
+          "id": "qtb-contents",
+          "name": "Your contents — Optional covers",
+          "order": 6,
+          "description": "Accidental Damage Cover selection with $2k/$5k limit options. Specific valuable items. Mascot tip bubbles on right side. Accordion for key information sections.",
+          "components": ["Stepper Nav", "Accordion", "Radio Card", "Mascot Tip", "Primary Button"],
+          "route": "/web/qtb-contents"
+        },
+        {
+          "id": "qtb-contents-summary",
+          "name": "Your contents — Summary",
+          "order": 7,
+          "description": "Sum insured amount input. Contents summary card showing Accidental Damage Cover, Contents sum insured, Total. Checkmark Next button.",
+          "components": ["Stepper Nav", "Text Input", "Summary Card", "Primary Button"],
+          "route": "/web/qtb-contents-summary"
+        },
+        {
+          "id": "qtb-policy-holders",
+          "name": "Policy holders — Personal details",
+          "order": 8,
+          "description": "Title radio buttons, first/last name, DOB, gender. RAA member check with membership discount message. Postal address radio cards. Contact fields (mobile, email).",
+          "components": ["Stepper Nav", "Radio Button", "Text Input", "Radio Card", "Mascot Tip", "Primary Button"],
+          "route": "/web/qtb-policy-holders"
+        },
+        {
+          "id": "qtb-policy-holder-list",
+          "name": "Policy holders — List",
+          "order": 9,
+          "description": "Shows added policy holders as cards with edit/delete. Option to add more. Yes/No radio cards for additional holders.",
+          "components": ["Stepper Nav", "Person Card", "Radio Card", "Primary Button"],
+          "route": "/web/qtb-policy-holder-list"
+        },
+        {
+          "id": "qtb-your-quote",
+          "name": "Your quote",
+          "order": 10,
+          "description": "Quote result page. Home cover sum insured and excess. Contents cover sum insured and excess. Optional add-ons with toggles and prices. Sticky quote price card (Buy now / Save quote). Fuel discount promo banner. Included cover grid. What you've told us accordion. Send quote by email. Why choose RAA footer section.",
+          "components": ["Quote Price Card", "Cover Option Card", "Toggle", "Accordion", "Promo Banner", "Feature Grid", "Primary Button"],
+          "route": "/web/qtb-your-quote"
+        }
+      ]
     },
     {
-      "id": "qtb-home-address",
-      "product": "raa-web",
-      "name": "General information — Home address",
-      "step": 1,
-      "totalSteps": 5,
-      "stepLabel": "General information",
-      "description": "Address search field with autocomplete. Address confirmed state shown with teal success card. Help link for addresses not found.",
-      "components": ["stepper-nav", "text-input", "address-confirmed-card", "primary-button"],
-      "journey": "quote-to-buy",
-      "userTestingNotes": "",
-      "status": "current"
-    },
-    {
-      "id": "qtb-home-occupancy",
-      "product": "raa-web",
-      "name": "General information — Home occupancy",
-      "step": 1,
-      "totalSteps": 5,
-      "stepLabel": "General information",
-      "description": "How is the home used? Radio card selection — I live in it, Holiday Home, Unoccupied. Conditional error alert if 4+ unrelated occupants selected.",
-      "components": ["stepper-nav", "radio-card", "alert-banner", "primary-button"],
-      "journey": "quote-to-buy",
-      "userTestingNotes": "",
-      "status": "current"
-    },
-    {
-      "id": "qtb-your-home",
-      "product": "raa-web",
-      "name": "Your home — Building information",
-      "step": 2,
-      "totalSteps": 5,
-      "stepLabel": "Your home",
-      "description": "Building type, strata title, external wall material, roof material, year built. Dropdown selects with inline validation errors in red.",
-      "components": ["stepper-nav", "dropdown-select", "form-label", "validation-error", "primary-button"],
-      "journey": "quote-to-buy",
-      "userTestingNotes": "",
-      "status": "current"
-    },
-    {
-      "id": "qtb-security",
-      "product": "raa-web",
-      "name": "Your home — Security and condition",
-      "step": 2,
-      "totalSteps": 5,
-      "stepLabel": "Your home",
-      "description": "Is the home in good condition? Does it have a security alarm? Yes/No radio cards. Right-side drawer panel for tooltip explanations (What counts as a security alarm?).",
-      "components": ["stepper-nav", "radio-card", "info-tooltip", "drawer-panel", "primary-button"],
-      "journey": "quote-to-buy",
-      "userTestingNotes": "",
-      "status": "current"
-    },
-    {
-      "id": "qtb-contents",
-      "product": "raa-web",
-      "name": "Your contents — Optional covers",
-      "step": 3,
-      "totalSteps": 5,
-      "stepLabel": "Your contents",
-      "description": "Accidental Damage Cover selection with $2k/$5k limit options. Specific valuable items. Mascot tip bubbles on right side. Accordion for key information sections.",
-      "components": ["stepper-nav", "accordion", "radio-card", "mascot-tip", "primary-button"],
-      "journey": "quote-to-buy",
-      "userTestingNotes": "",
-      "status": "current"
-    },
-    {
-      "id": "qtb-contents-summary",
-      "product": "raa-web",
-      "name": "Your contents — Summary",
-      "step": 3,
-      "totalSteps": 5,
-      "stepLabel": "Your contents",
-      "description": "Sum insured amount input. Contents summary card showing Accidental Damage Cover, Contents sum insured, Total. Checkmark Next button.",
-      "components": ["stepper-nav", "text-input", "summary-card", "primary-button"],
-      "journey": "quote-to-buy",
-      "userTestingNotes": "",
-      "status": "current"
-    },
-    {
-      "id": "qtb-policy-holders",
-      "product": "raa-web",
-      "name": "Policy holders — Personal details",
-      "step": 4,
-      "totalSteps": 5,
-      "stepLabel": "Policy holders",
-      "description": "Title radio buttons, first/last name, DOB, gender. RAA member check with membership discount message. Postal address radio cards. Contact fields (mobile, email).",
-      "components": ["stepper-nav", "radio-button", "text-input", "radio-card", "mascot-tip", "primary-button"],
-      "journey": "quote-to-buy",
-      "userTestingNotes": "",
-      "status": "current"
-    },
-    {
-      "id": "qtb-policy-holder-list",
-      "product": "raa-web",
-      "name": "Policy holders — List",
-      "step": 4,
-      "totalSteps": 5,
-      "stepLabel": "Policy holders",
-      "description": "Shows added policy holders as cards with edit/delete. Option to add more. Yes/No radio cards for additional holders.",
-      "components": ["stepper-nav", "person-card", "radio-card", "primary-button"],
-      "journey": "quote-to-buy",
-      "userTestingNotes": "",
-      "status": "current"
-    },
-    {
-      "id": "qtb-your-quote",
-      "product": "raa-web",
-      "name": "Your quote",
-      "step": 5,
-      "totalSteps": 5,
-      "stepLabel": "Your quote",
-      "description": "Quote result page. Home cover sum insured and excess. Contents cover sum insured and excess. Optional add-ons with toggles and prices. Sticky quote price card (Buy now / Save quote). Fuel discount promo banner. Included cover grid. What you've told us accordion. Send quote by email. Why choose RAA footer section.",
-      "components": ["quote-price-card", "cover-option-card", "toggle", "accordion", "promo-banner", "feature-grid", "primary-button"],
-      "journey": "quote-to-buy",
-      "userTestingNotes": "",
-      "status": "current"
-    },
-    {
-      "id": "mya-dashboard",
-      "product": "raa-web-mya",
-      "name": "My Account — Dashboard",
-      "description": "Logged-in account overview. Welcome banner, 3 summary cards (active policies, saved this year, membership), quick action grid, recent activity list.",
-      "components": ["account-nav", "summary-card", "quick-action-card", "activity-list"],
-      "journey": "my-account",
-      "userTestingNotes": "",
-      "status": "prototype"
-    },
-    {
-      "id": "mya-personal-details",
-      "product": "raa-web-mya",
-      "name": "My Account — Personal details",
-      "description": "Read-only personal details with Edit buttons per section. Sections: Name and DOB, Contact information, Home address, Postal address. Info notice for name changes.",
-      "components": ["account-nav", "detail-section", "field-row", "info-banner"],
-      "journey": "my-account",
-      "userTestingNotes": "",
-      "status": "prototype"
-    },
-    {
-      "id": "mya-my-products",
-      "product": "raa-web-mya",
-      "name": "My Account — My products",
-      "description": "Active product cards for Home and Contents Insurance, Roadside Membership, and Car Insurance. Each card shows policy number, renewal date, premium, multi-policy discount, and highlights chips. Manage policy and Make a claim CTAs. Add another product prompt.",
-      "components": ["account-nav", "product-card", "highlight-chip", "cta-button"],
-      "journey": "my-account",
-      "userTestingNotes": "",
-      "status": "prototype"
-    },
-    {
-      "id": "mya-payment-details",
-      "product": "raa-web-mya",
-      "name": "My Account — Payment details",
-      "description": "Visual credit card mockup with card number, holder name, expiry. Direct debit active status. Upcoming payments table for all products. Next payment summary. Billing address section with Edit.",
-      "components": ["account-nav", "card-mockup", "payment-table", "billing-section"],
-      "journey": "my-account",
-      "userTestingNotes": "",
-      "status": "prototype"
-    },
-    {
-      "id": "app-home",
-      "product": "raa-app",
-      "name": "Home screen",
-      "description": "Personalised home screen. Yellow diagonal header with RAA logo. Hi [Name] greeting with member number. 2x2 action grid (Book Road Service, Show card, Search fuel prices, Enter competitions). Promotional banner. My savings section. RAA Rewards horizontal scroll. Dining and grocery rewards map embed. Competitions horizontal scroll. More from RAA grid.",
-      "components": ["home-screen-grid-tile", "savings-summary-row", "rewards-card", "map-embed", "competition-card"],
-      "journey": "raa-membership",
-      "userTestingNotes": "",
-      "status": "current"
-    },
-    {
-      "id": "app-fuel-map",
-      "product": "raa-app",
-      "name": "Fuel prices — Map",
-      "description": "Apple Maps full-screen with fuel station pins showing prices. Filter pills row (filter icon, RAA Discount, Favourites, fuel type dropdown). Bottom sheet with selected station details (name, open status, distance, price, Get directions CTA).",
-      "components": ["map-filter-pill", "bottom-sheet", "station-detail-card"],
-      "journey": "raa-membership",
-      "userTestingNotes": "",
-      "status": "current"
-    },
-    {
-      "id": "app-fuel-filter",
-      "product": "raa-app",
-      "name": "Fuel prices — Filter",
-      "description": "Bottom sheet filter panel. Toggle rows for Fuel discount and Favourites. Fuel type single-select list with green checkmark. Price range selector. Black Done CTA button.",
-      "components": ["bottom-sheet", "settings-toggle-row", "list-select", "primary-button"],
-      "journey": "raa-membership",
-      "userTestingNotes": "",
-      "status": "current"
-    },
-    {
-      "id": "app-savings",
-      "product": "raa-app",
-      "name": "My savings",
-      "description": "Full-width yellow savings hero banner with personalised message and total amount. Grouped savings table: RAA Rewards section and RAA products and policies section. Total at bottom.",
-      "components": ["savings-hero-banner", "savings-table"],
-      "journey": "raa-membership",
-      "userTestingNotes": "",
-      "status": "current"
-    },
-    {
-      "id": "app-notifications",
-      "product": "raa-app",
-      "name": "Notifications",
-      "description": "Bottom sheet notification list. Each row has bold title with emoji, body description, right-aligned date, blue unread dot.",
-      "components": ["bottom-sheet", "notification-list-item"],
-      "journey": "raa-membership",
-      "userTestingNotes": "",
-      "status": "current"
-    },
-    {
-      "id": "app-notification-settings",
-      "product": "raa-app",
-      "name": "Notification preferences",
-      "description": "Settings screen with grouped toggle rows. Global toggle for in-app notifications. Sections: FUEL, DEALS (8 categories), COMPETITIONS, DEVICE SETTINGS. All green iOS-style toggles.",
-      "components": ["settings-toggle-row"],
-      "journey": "raa-membership",
-      "userTestingNotes": "",
-      "status": "current"
-    },
-    {
-      "id": "app-my-account",
-      "product": "raa-app",
+      "id": "raa-web-my-account",
       "name": "My Account",
-      "description": "Account menu screen. Sections: My payments (Pay or renew, Update payment details — external links). My details (Personal details, My products, My claims — external links; My savings, Notification preferences — internal nav). RAA section (Contact us, Careers).",
-      "components": ["list-row-external", "list-row-internal"],
-      "journey": "raa-membership",
-      "userTestingNotes": "",
-      "status": "current"
+      "category": "raa-web",
+      "campaign": null,
+      "status": "prototype",
+      "created": "2026-06-01",
+      "lastUpdated": "2026-06-05",
+      "description": "Logged-in web account portal. Dashboard overview, personal details, products and policies, and payment details. Based on the Demo-My-Account Figma file.",
+      "figmaSource": "https://www.figma.com/file/Demo-My-Account",
+      "liveUrl": "https://online.raa.com.au/my-account",
+      "browserUrl": "online.raa.com.au/my-account",
+      "screens": [
+        {
+          "id": "mya-dashboard",
+          "name": "My Account — Dashboard",
+          "order": 1,
+          "description": "Logged-in account overview. Welcome banner, 3 summary cards (active policies, saved this year, membership), quick action grid, recent activity list.",
+          "components": ["Account Nav", "Summary Card", "Quick Action Card", "Activity List"],
+          "route": "/web/mya-dashboard"
+        },
+        {
+          "id": "mya-personal-details",
+          "name": "My Account — Personal details",
+          "order": 2,
+          "description": "Read-only personal details with Edit buttons per section. Sections: Name and DOB, Contact information, Home address, Postal address. Info notice for name changes.",
+          "components": ["Account Nav", "Detail Section", "Field Row", "Info Banner"],
+          "route": "/web/mya-personal-details"
+        },
+        {
+          "id": "mya-my-products",
+          "name": "My Account — My products",
+          "order": 3,
+          "description": "Active product cards for Home and Contents Insurance, Roadside Membership, and Car Insurance. Each card shows policy number, renewal date, premium, multi-policy discount, and highlights chips. Manage policy and Make a claim CTAs. Add another product prompt.",
+          "components": ["Account Nav", "Product Card", "Highlight Chip", "CTA Button"],
+          "route": "/web/mya-my-products"
+        },
+        {
+          "id": "mya-payment-details",
+          "name": "My Account — Payment details",
+          "order": 4,
+          "description": "Visual credit card mockup with card number, holder name, expiry. Direct debit active status. Upcoming payments table for all products. Next payment summary. Billing address section with Edit.",
+          "components": ["Account Nav", "Card Mockup", "Payment Table", "Billing Section"],
+          "route": "/web/mya-payment-details"
+        }
+      ]
+    },
+    {
+      "id": "raa-app-member-app",
+      "name": "RAA Mobile App",
+      "category": "raa-app",
+      "campaign": null,
+      "status": "production",
+      "created": "2026-05-01",
+      "lastUpdated": "2026-06-04",
+      "description": "Native iOS/Android member app. Features: home screen, fuel prices map, rewards/savings, competitions, road service, member card, notifications, account settings.",
+      "figmaSource": "https://www.figma.com/file/App-Squad-Figma",
+      "liveUrl": "https://apps.apple.com/au/app/raa/id406061705",
+      "browserUrl": null,
+      "screens": [
+        {
+          "id": "app-home",
+          "name": "Home screen",
+          "order": 1,
+          "description": "Personalised home screen. Yellow diagonal header with RAA logo. Hi [Name] greeting with member number. 2x2 action grid (Book Road Service, Show card, Search fuel prices, Enter competitions). Promotional banner. My savings section. RAA Rewards horizontal scroll. Dining and grocery rewards map embed. Competitions horizontal scroll. More from RAA grid.",
+          "components": ["Home Screen Grid Tile", "Savings Summary Row", "Rewards Card", "Map Embed", "Competition Card"],
+          "route": "/app/home"
+        },
+        {
+          "id": "app-fuel-map",
+          "name": "Fuel prices — Map",
+          "order": 2,
+          "description": "Apple Maps full-screen with fuel station pins showing prices. Filter pills row (filter icon, RAA Discount, Favourites, fuel type dropdown). Bottom sheet with selected station details (name, open status, distance, price, Get directions CTA).",
+          "components": ["Map Filter Pill", "Bottom Sheet", "Station Detail Card"],
+          "route": "/app/fuel-map"
+        },
+        {
+          "id": "app-fuel-filter",
+          "name": "Fuel prices — Filter",
+          "order": 3,
+          "description": "Bottom sheet filter panel. Toggle rows for Fuel discount and Favourites. Fuel type single-select list with green checkmark. Price range selector. Black Done CTA button.",
+          "components": ["Bottom Sheet", "Settings Toggle Row", "List Select", "Primary Button"],
+          "route": "/app/fuel-filter"
+        },
+        {
+          "id": "app-savings",
+          "name": "My savings",
+          "order": 4,
+          "description": "Full-width yellow savings hero banner with personalised message and total amount. Grouped savings table: RAA Rewards section and RAA products and policies section. Total at bottom.",
+          "components": ["Savings Hero Banner", "Savings Table"],
+          "route": "/app/savings"
+        },
+        {
+          "id": "app-notifications",
+          "name": "Notifications",
+          "order": 5,
+          "description": "Bottom sheet notification list. Each row has bold title with emoji, body description, right-aligned date, blue unread dot.",
+          "components": ["Bottom Sheet", "Notification List Item"],
+          "route": "/app/notifications"
+        },
+        {
+          "id": "app-notification-settings",
+          "name": "Notification preferences",
+          "order": 6,
+          "description": "Settings screen with grouped toggle rows. Global toggle for in-app notifications. Sections: FUEL, DEALS (8 categories), COMPETITIONS, DEVICE SETTINGS. All green iOS-style toggles.",
+          "components": ["Settings Toggle Row"],
+          "route": "/app/notification-settings"
+        },
+        {
+          "id": "app-my-account",
+          "name": "My Account",
+          "order": 7,
+          "description": "Account menu screen. Sections: My payments (Pay or renew, Update payment details — external links). My details (Personal details, My products, My claims — external links; My savings, Notification preferences — internal nav). RAA section (Contact us, Careers).",
+          "components": ["List Row External", "List Row Internal"],
+          "route": "/app/my-account"
+        }
+      ]
     }
-  ],
-  "howToUpdate": {
-    "scrapeWorkflow": "Use Claude in Chrome to navigate the live site or app mirror. Ask Claude to describe the layout, component structure, and flow. Use that description plus Figma component specs (via Claude Chat MCP connector) to generate a Claude Code prompt. Run in this repo to update or add screens.",
-    "addScreenPrompt": "To add a new prototype screen: describe the screen to Claude Code including which product it belongs to, which components it uses, what the layout is, and where it sits in the user flow. Claude Code will add it to prototypes.json and create the screen component.",
-    "figmaWorkflow": "Connect Claude Chat to Figma via MCP. Ask it to pull the exact component specs for the components you need. Include those specs in your Claude Code prompt so measurements are exact, not estimated."
-  }
+  ]
 }
