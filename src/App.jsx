@@ -4,6 +4,7 @@ import Sidebar from './components/Sidebar.jsx'
 import HomePage from './pages/HomePage.jsx'
 import HowToUsePage from './pages/HowToUsePage.jsx'
 import PrototypeScreen from './pages/PrototypeScreen.jsx'
+import PresentMode from './pages/PresentMode.jsx'
 
 function BeehiveIcon() {
   return (
@@ -16,12 +17,11 @@ function BeehiveIcon() {
   )
 }
 
-export default function App() {
+function AppShell() {
   const [sidebarOpen, setSidebarOpen] = useState(false)
 
   return (
     <div className="app-layout">
-      {/* Fixed header */}
       <header className="header">
         <button
           className="hamburger-btn"
@@ -46,15 +46,9 @@ export default function App() {
           target="_blank"
           rel="noopener noreferrer"
           style={{
-            fontSize: '13px',
-            color: '#5E6C84',
-            textDecoration: 'none',
-            padding: '6px 12px',
-            borderRadius: '4px',
-            border: '1px solid #DFE1E6',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '6px',
+            fontSize: '13px', color: '#5E6C84', textDecoration: 'none',
+            padding: '6px 12px', borderRadius: '4px', border: '1px solid #DFE1E6',
+            display: 'flex', alignItems: 'center', gap: '6px',
           }}
         >
           <span>Apiary Design System</span>
@@ -62,10 +56,8 @@ export default function App() {
         </a>
       </header>
 
-      {/* Sidebar */}
       <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 
-      {/* Mobile overlay */}
       {sidebarOpen && (
         <div
           onClick={() => setSidebarOpen(false)}
@@ -77,7 +69,6 @@ export default function App() {
         />
       )}
 
-      {/* Main content */}
       <main className="main-content">
         <Routes>
           <Route path="/" element={<HomePage />} />
@@ -87,5 +78,15 @@ export default function App() {
         </Routes>
       </main>
     </div>
+  )
+}
+
+export default function App() {
+  return (
+    <Routes>
+      <Route path="/present/web/:screenId" element={<PresentMode product="raa-web" />} />
+      <Route path="/present/app/:screenId" element={<PresentMode product="raa-app" />} />
+      <Route path="/*" element={<AppShell />} />
+    </Routes>
   )
 }

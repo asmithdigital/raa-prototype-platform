@@ -11,6 +11,16 @@
       "designSystemRef": "raa-web"
     },
     {
+      "id": "raa-web-mya",
+      "name": "RAA Web — My Account",
+      "description": "Logged-in web account screens. Dashboard, personal details, products and policies, and payment details.",
+      "status": "prototype",
+      "lastScraped": "2026-06-05",
+      "scrapeSource": "Demo-My-Account Figma file",
+      "figmaSource": "Demo-My-Account",
+      "designSystemRef": "raa-web"
+    },
+    {
       "id": "raa-app",
       "name": "RAA Mobile App",
       "description": "Native iOS/Android member app. Features: home screen, fuel prices map, rewards/savings, competitions, road service, member card, notifications, account settings.",
@@ -151,6 +161,46 @@
       "journey": "quote-to-buy",
       "userTestingNotes": "",
       "status": "current"
+    },
+    {
+      "id": "mya-dashboard",
+      "product": "raa-web-mya",
+      "name": "My Account — Dashboard",
+      "description": "Logged-in account overview. Welcome banner, 3 summary cards (active policies, saved this year, membership), quick action grid, recent activity list.",
+      "components": ["account-nav", "summary-card", "quick-action-card", "activity-list"],
+      "journey": "my-account",
+      "userTestingNotes": "",
+      "status": "prototype"
+    },
+    {
+      "id": "mya-personal-details",
+      "product": "raa-web-mya",
+      "name": "My Account — Personal details",
+      "description": "Read-only personal details with Edit buttons per section. Sections: Name and DOB, Contact information, Home address, Postal address. Info notice for name changes.",
+      "components": ["account-nav", "detail-section", "field-row", "info-banner"],
+      "journey": "my-account",
+      "userTestingNotes": "",
+      "status": "prototype"
+    },
+    {
+      "id": "mya-my-products",
+      "product": "raa-web-mya",
+      "name": "My Account — My products",
+      "description": "Active product cards for Home and Contents Insurance, Roadside Membership, and Car Insurance. Each card shows policy number, renewal date, premium, multi-policy discount, and highlights chips. Manage policy and Make a claim CTAs. Add another product prompt.",
+      "components": ["account-nav", "product-card", "highlight-chip", "cta-button"],
+      "journey": "my-account",
+      "userTestingNotes": "",
+      "status": "prototype"
+    },
+    {
+      "id": "mya-payment-details",
+      "product": "raa-web-mya",
+      "name": "My Account — Payment details",
+      "description": "Visual credit card mockup with card number, holder name, expiry. Direct debit active status. Upcoming payments table for all products. Next payment summary. Billing address section with Edit.",
+      "components": ["account-nav", "card-mockup", "payment-table", "billing-section"],
+      "journey": "my-account",
+      "userTestingNotes": "",
+      "status": "prototype"
     },
     {
       "id": "app-home",

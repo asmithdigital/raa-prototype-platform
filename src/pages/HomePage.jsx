@@ -1,34 +1,80 @@
 import { Link } from 'react-router-dom'
 import prototypes from '../../data/prototypes.json'
 
-const webScreens = prototypes.screens.filter(s => s.product === 'raa-web')
+const qtbScreens = prototypes.screens.filter(s => s.product === 'raa-web')
+const myaScreens = prototypes.screens.filter(s => s.product === 'raa-web-mya')
 const appScreens = prototypes.screens.filter(s => s.product === 'raa-app')
+
+const PRODUCTS = [
+  {
+    id: 'raa-web',
+    icon: '🌐',
+    name: 'RAA Web — Quote to Buy',
+    subtitle: 'Home insurance online flow',
+    desc: 'The 5-step quote and purchase flow for RAA home and contents insurance. Interactive screens — click through the full flow.',
+    screens: qtbScreens,
+    browseLink: '/web/qtb-general-info',
+    presentLink: '/present/web/qtb-general-info',
+    status: 'Production',
+    statusColor: '#36B37E',
+    bg: '#FFFAE6',
+    accent: '#FFD100',
+  },
+  {
+    id: 'raa-web-mya',
+    icon: '👤',
+    name: 'RAA Web — My Account',
+    subtitle: 'Logged-in account management',
+    desc: 'The logged-in account portal — dashboard, personal details, products and policies, payment details. Navigate between screens.',
+    screens: myaScreens,
+    browseLink: '/web/mya-dashboard',
+    presentLink: '/present/web/mya-dashboard',
+    status: 'Prototype',
+    statusColor: '#0052CC',
+    bg: '#DEEBFF',
+    accent: '#0052CC',
+  },
+  {
+    id: 'raa-app',
+    icon: '📱',
+    name: 'RAA Mobile App',
+    subtitle: 'iOS & Android member app',
+    desc: 'The member app — home screen, fuel prices map, rewards and savings, notifications, and account. Tap to navigate between screens.',
+    screens: appScreens,
+    browseLink: '/app/home',
+    presentLink: '/present/app/home',
+    status: 'Production',
+    statusColor: '#36B37E',
+    bg: '#E3FCEF',
+    accent: '#36B37E',
+  },
+]
 
 export default function HomePage() {
   return (
     <div className="content-inner">
       {/* Hero */}
       <div style={{ marginBottom: '48px' }}>
-        <div style={{ display: 'inline-block', background: '#DEEBFF', color: '#0052CC', fontSize: '12px', fontWeight: 600, padding: '4px 10px', borderRadius: '4px', marginBottom: '16px', letterSpacing: '0.02em' }}>
-          EXD Intelligence Layer
+        <div style={{ display: 'inline-block', background: '#FFFAE6', color: '#172B4D', fontSize: '12px', fontWeight: 600, padding: '4px 12px', borderRadius: '4px', marginBottom: '16px', letterSpacing: '0.02em', border: '1px solid #FFD100' }}>
+          RAA Prototype Platform
         </div>
-        <h1 style={{ marginBottom: '16px', fontSize: '32px' }}>RAA Prototype Platform</h1>
-        <p style={{ fontSize: '16px', color: '#42526E', lineHeight: 1.7, maxWidth: '600px', marginBottom: '28px' }}>
-          The visual source of truth for the EXD design team. Browse real-looking screens of RAA's products — not wireframes, not mockups. Use this as context before designing anything new.
+        <h1 style={{ marginBottom: '16px', fontSize: '32px' }}>Interactive prototypes for user testing</h1>
+        <p style={{ fontSize: '16px', color: '#42526E', lineHeight: 1.7, maxWidth: '640px', marginBottom: '28px' }}>
+          Real-looking, clickable screens for RAA's web and app products. Use these to run user testing sessions — screens respond to taps and clicks, and Present mode shows them full-screen without any chrome.
         </p>
         <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
           <Link
-            to="/web/qtb-general-info"
+            to="/how-to-use"
             style={{
               display: 'inline-flex', alignItems: 'center', gap: '8px',
-              background: '#0052CC', color: '#ffffff', padding: '10px 20px',
-              borderRadius: '4px', fontWeight: 600, fontSize: '14px', textDecoration: 'none',
+              background: '#172B4D', color: '#FFD100', padding: '10px 20px',
+              borderRadius: '4px', fontWeight: 700, fontSize: '14px', textDecoration: 'none',
             }}
           >
-            Browse web prototypes →
+            How to run a user test →
           </Link>
           <Link
-            to="/app/home"
+            to="/web/qtb-general-info"
             style={{
               display: 'inline-flex', alignItems: 'center', gap: '8px',
               background: '#ffffff', color: '#172B4D', padding: '10px 20px',
@@ -36,7 +82,7 @@ export default function HomePage() {
               border: '1px solid #DFE1E6',
             }}
           >
-            Browse app prototypes →
+            Browse all screens
           </Link>
         </div>
       </div>
@@ -45,7 +91,7 @@ export default function HomePage() {
       <div style={{ display: 'flex', gap: '16px', marginBottom: '48px', flexWrap: 'wrap' }}>
         {[
           { label: 'Total screens', value: prototypes.screens.length },
-          { label: 'Products', value: prototypes.products.length },
+          { label: 'Prototypes', value: prototypes.products.length },
           { label: 'Last updated', value: 'June 2026' },
         ].map((stat) => (
           <div key={stat.label} style={{
@@ -63,69 +109,59 @@ export default function HomePage() {
       </div>
 
       {/* Product cards */}
-      <h2 style={{ marginBottom: '20px' }}>Products</h2>
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '20px', marginBottom: '48px' }}>
-        <div style={{
-          border: '1px solid #DFE1E6', borderRadius: '8px', padding: '28px',
-          background: '#ffffff',
-        }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '16px' }}>
-            <div style={{ width: '40px', height: '40px', borderRadius: '8px', background: '#FFD100', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '20px' }}>
-              🌐
-            </div>
-            <div>
-              <h3 style={{ marginBottom: '2px' }}>RAA Web</h3>
-              <div style={{ fontSize: '12px', color: '#36B37E', fontWeight: 500 }}>● Production</div>
+      <h2 style={{ marginBottom: '8px' }}>Prototypes</h2>
+      <p style={{ fontSize: '14px', color: '#5E6C84', marginBottom: '24px' }}>Browse screens in the sidebar, or use Present mode for user testing sessions.</p>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', marginBottom: '48px' }}>
+        {PRODUCTS.map(product => (
+          <div key={product.id} style={{
+            border: '1px solid #DFE1E6', borderRadius: '8px',
+            background: '#ffffff', overflow: 'hidden',
+            display: 'flex',
+          }}>
+            <div style={{ width: '6px', background: product.accent, flexShrink: 0 }} />
+            <div style={{ padding: '24px 28px', flex: 1, display: 'flex', gap: '20px', alignItems: 'flex-start' }}>
+              <div style={{ width: '48px', height: '48px', borderRadius: '10px', background: product.bg, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '24px', flexShrink: 0 }}>
+                {product.icon}
+              </div>
+              <div style={{ flex: 1, minWidth: 0 }}>
+                <div style={{ display: 'flex', alignItems: 'baseline', gap: '10px', marginBottom: '4px', flexWrap: 'wrap' }}>
+                  <h3 style={{ fontSize: '16px', fontWeight: 700, margin: 0 }}>{product.name}</h3>
+                  <span style={{ fontSize: '11px', fontWeight: 600, color: product.statusColor, background: product.bg, padding: '2px 8px', borderRadius: '10px' }}>
+                    ● {product.status}
+                  </span>
+                </div>
+                <div style={{ fontSize: '12px', color: '#5E6C84', marginBottom: '8px' }}>{product.subtitle} · {product.screens.length} screens</div>
+                <p style={{ fontSize: '14px', color: '#42526E', lineHeight: 1.6, margin: 0 }}>{product.desc}</p>
+              </div>
+              <div style={{ display: 'flex', gap: '8px', flexShrink: 0, alignItems: 'center' }}>
+                <Link
+                  to={product.browseLink}
+                  style={{
+                    display: 'inline-flex', alignItems: 'center',
+                    background: '#F4F5F7', color: '#172B4D',
+                    padding: '8px 16px', borderRadius: '4px', fontSize: '13px', fontWeight: 600,
+                    textDecoration: 'none', border: '1px solid #DFE1E6', whiteSpace: 'nowrap',
+                  }}
+                >
+                  Browse
+                </Link>
+                <a
+                  href={product.presentLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{
+                    display: 'inline-flex', alignItems: 'center', gap: '6px',
+                    background: '#172B4D', color: '#FFD100',
+                    padding: '8px 16px', borderRadius: '4px', fontSize: '13px', fontWeight: 700,
+                    textDecoration: 'none', whiteSpace: 'nowrap',
+                  }}
+                >
+                  ▶ Present
+                </a>
+              </div>
             </div>
           </div>
-          <p style={{ fontSize: '14px', color: '#42526E', marginBottom: '16px', lineHeight: 1.6 }}>
-            Quote to Buy — Home Insurance. {webScreens.length} screens covering the full 5-step quote and purchase flow.
-          </p>
-          <div style={{ fontSize: '12px', color: '#5E6C84', marginBottom: '20px' }}>
-            Last scraped June 2026 · online.raa.com.au
-          </div>
-          <Link
-            to="/web/qtb-general-info"
-            style={{
-              display: 'inline-block', background: '#DEEBFF', color: '#0052CC',
-              padding: '8px 16px', borderRadius: '4px', fontSize: '13px', fontWeight: 600,
-              textDecoration: 'none',
-            }}
-          >
-            View {webScreens.length} screens →
-          </Link>
-        </div>
-
-        <div style={{
-          border: '1px solid #DFE1E6', borderRadius: '8px', padding: '28px',
-          background: '#ffffff',
-        }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '16px' }}>
-            <div style={{ width: '40px', height: '40px', borderRadius: '8px', background: '#FFD100', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '20px' }}>
-              📱
-            </div>
-            <div>
-              <h3 style={{ marginBottom: '2px' }}>RAA App</h3>
-              <div style={{ fontSize: '12px', color: '#36B37E', fontWeight: 500 }}>● Production</div>
-            </div>
-          </div>
-          <p style={{ fontSize: '14px', color: '#42526E', marginBottom: '16px', lineHeight: 1.6 }}>
-            Member app — iOS & Android. {appScreens.length} screens including home, fuel prices, savings, rewards, and account.
-          </p>
-          <div style={{ fontSize: '12px', color: '#5E6C84', marginBottom: '20px' }}>
-            Screenshots June 2026 · App Store
-          </div>
-          <Link
-            to="/app/home"
-            style={{
-              display: 'inline-block', background: '#DEEBFF', color: '#0052CC',
-              padding: '8px 16px', borderRadius: '4px', fontSize: '13px', fontWeight: 600,
-              textDecoration: 'none',
-            }}
-          >
-            View {appScreens.length} screens →
-          </Link>
-        </div>
+        ))}
       </div>
 
       {/* How it connects */}

@@ -1,70 +1,89 @@
-const steps = ['General information','Your home','Your contents','Policy holders','Your quote']
+import { useState } from 'react'
 
-export default function QTBHomeOccupancy() {
+const STEPS = ['General information','Your home','Your contents','Policy holders','Your quote']
+
+function StepperNav({ active }) {
+  return (
+    <div style={{ display: 'flex', background: '#fff', borderBottom: '1px solid #DFE1E6', padding: '0 32px', overflowX: 'auto' }}>
+      {STEPS.map((s, i) => {
+        const isActive = i === active, isDone = i < active
+        return (
+          <div key={s} style={{ padding: '12px 16px 10px', fontSize: '12px', fontWeight: 600, color: isActive ? '#0052CC' : isDone ? '#36B37E' : '#8993A4', borderBottom: isActive ? '3px solid #0052CC' : '3px solid transparent', display: 'flex', alignItems: 'center', gap: '6px', whiteSpace: 'nowrap', flexShrink: 0 }}>
+            <span style={{ width: 16, height: 16, borderRadius: '50%', background: isActive ? '#0052CC' : isDone ? '#36B37E' : '#DFE1E6', color: '#fff', fontSize: 10, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>{isDone ? '✓' : i+1}</span>
+            {s}
+          </div>
+        )
+      })}
+    </div>
+  )
+}
+
+function RadioCard({ label, desc, selected, onClick }) {
+  return (
+    <div onClick={onClick} style={{ border: selected ? '2px solid #0052CC' : '1px solid #DFE1E6', borderRadius: '8px', padding: '16px 20px', marginBottom: '10px', display: 'flex', alignItems: 'flex-start', gap: '14px', cursor: 'pointer', background: selected ? '#F4F8FF' : '#fff' }}>
+      <div style={{ width: 20, height: 20, borderRadius: '50%', flexShrink: 0, border: selected ? '6px solid #0052CC' : '2px solid #DFE1E6', background: '#fff', marginTop: 2 }} />
+      <div>
+        <div style={{ fontWeight: 600, fontSize: 14, color: '#172B4D' }}>{label}</div>
+        {desc && <div style={{ fontSize: 13, color: '#42526E', marginTop: 3, lineHeight: 1.5 }}>{desc}</div>}
+      </div>
+    </div>
+  )
+}
+
+export default function QTBHomeOccupancy({ onNext, onBack }) {
+  const [occupancy, setOccupancy] = useState('I live in it')
+  const [occupants, setOccupants] = useState('1-3')
+
   return (
     <div style={{ fontFamily: 'Inter, sans-serif', background: '#fff', minHeight: '600px', fontSize: '14px', color: '#172B4D' }}>
       <div style={{ background: '#172B4D', padding: '0 32px', height: '56px', display: 'flex', alignItems: 'center', gap: '16px' }}>
-        <div style={{ width: '60px', height: '28px', background: '#FFD100', borderRadius: '4px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '10px', fontWeight: 700, color: '#172B4D' }}>RAA</div>
+        <div style={{ width: '60px', height: '28px', background: '#FFD100', borderRadius: '4px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '11px', fontWeight: 900, color: '#172B4D' }}>RAA</div>
         <span style={{ color: '#fff', fontSize: '14px', fontWeight: 500 }}>Home insurance quote</span>
       </div>
       <div style={{ background: '#FFD100', padding: '16px 32px' }}>
-        <div style={{ fontSize: '12px', fontWeight: 600, color: '#172B4D', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '4px' }}>Step 1 of 5</div>
+        <div style={{ fontSize: '12px', fontWeight: 700, color: '#172B4D', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '4px' }}>Step 1 of 5</div>
         <div style={{ fontSize: '22px', fontWeight: 700, color: '#172B4D' }}>General information</div>
       </div>
-      <div style={{ display: 'flex', background: '#fff', borderBottom: '1px solid #DFE1E6', padding: '0 32px', overflowX: 'auto' }}>
-        {steps.map((step, i) => (
-          <div key={step} style={{ padding: '12px 16px 10px', fontSize: '12px', fontWeight: 600, color: i === 0 ? '#0052CC' : '#8993A4', borderBottom: i === 0 ? '3px solid #0052CC' : '3px solid transparent', display: 'flex', alignItems: 'center', gap: '6px', whiteSpace: 'nowrap' }}>
-            <span style={{ width: 16, height: 16, borderRadius: '50%', background: i === 0 ? '#0052CC' : '#DFE1E6', color: i === 0 ? '#fff' : '#8993A4', fontSize: 10, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>{i+1}</span>
-            {step}
-          </div>
-        ))}
-      </div>
+      <StepperNav active={0} />
       <div style={{ padding: '32px' }}>
-        <h2 style={{ fontSize: '18px', fontWeight: 700, marginBottom: '20px' }}>How is the home used?</h2>
+        <h2 style={{ fontSize: '18px', fontWeight: 700, marginBottom: '8px' }}>How is the home used?</h2>
+        <p style={{ fontSize: '13px', color: '#42526E', marginBottom: '24px', lineHeight: 1.6 }}>Select the option that best describes how you use this property.</p>
 
         {[
-          { label: 'I live in it', desc: 'Your primary residence', selected: true },
-          { label: 'Holiday home', desc: 'Used occasionally for holidays', selected: false },
-          { label: 'Unoccupied', desc: 'Not currently occupied', selected: false },
+          { label: 'I live in it', desc: 'Your primary place of residence' },
+          { label: 'Holiday home', desc: 'Used for holidays or short stays, not your primary home' },
+          { label: 'Unoccupied', desc: 'Currently empty — no regular occupants' },
         ].map(opt => (
-          <div key={opt.label} style={{
-            border: opt.selected ? '2px solid #0052CC' : '1px solid #DFE1E6',
-            borderRadius: '8px', padding: '16px 20px', marginBottom: '10px',
-            display: 'flex', alignItems: 'center', gap: '14px', cursor: 'pointer',
-            background: opt.selected ? '#F4F8FF' : '#fff',
-          }}>
-            <div style={{ width: '20px', height: '20px', borderRadius: '50%', flexShrink: 0, border: opt.selected ? '6px solid #0052CC' : '2px solid #DFE1E6', background: '#fff' }} />
-            <div>
-              <div style={{ fontWeight: 600, fontSize: 14 }}>{opt.label}</div>
-              <div style={{ fontSize: 13, color: '#42526E', marginTop: 2 }}>{opt.desc}</div>
-            </div>
-          </div>
+          <RadioCard key={opt.label} label={opt.label} desc={opt.desc} selected={occupancy === opt.label} onClick={() => setOccupancy(opt.label)} />
         ))}
 
-        <div style={{ marginTop: '24px', marginBottom: '24px' }}>
-          <label style={{ fontSize: '13px', fontWeight: 600, display: 'block', marginBottom: '8px' }}>
-            How many unrelated people live in the home?
-          </label>
-          <select style={{ padding: '10px 14px', border: '1px solid #DFE1E6', borderRadius: '4px', fontSize: '14px', color: '#172B4D', width: '180px', background: '#fff' }}>
-            <option>1 person</option>
-            <option>2 people</option>
-            <option>3 people</option>
-            <option>4+ people</option>
-          </select>
-        </div>
-
-        {/* Alert banner example */}
-        <div style={{ background: '#FFFAE6', border: '1px solid #FFD100', borderRadius: '6px', padding: '14px 16px', marginBottom: '24px', display: 'flex', gap: '12px', alignItems: 'flex-start' }}>
-          <span style={{ fontSize: '18px', flexShrink: 0 }}>⚠️</span>
-          <div style={{ fontSize: '13px', color: '#172B4D' }}>
-            <strong>Additional information required</strong>
-            <div style={{ marginTop: '4px', color: '#42526E' }}>If 4 or more unrelated people live in the property, please call us on <strong>08 8202 4600</strong> to discuss your options.</div>
+        {occupancy === 'I live in it' && (
+          <div style={{ marginTop: '24px' }}>
+            <label style={{ fontSize: '14px', fontWeight: 600, display: 'block', marginBottom: '12px' }}>How many unrelated people live in the home?</label>
+            <div style={{ display: 'flex', gap: '10px' }}>
+              {['1-3', '4+'].map(opt => (
+                <div key={opt} onClick={() => setOccupants(opt)} style={{ border: occupants === opt ? '2px solid #0052CC' : '1px solid #DFE1E6', borderRadius: '6px', padding: '10px 28px', cursor: 'pointer', fontWeight: 600, fontSize: '14px', background: occupants === opt ? '#F4F8FF' : '#fff', color: occupants === opt ? '#0052CC' : '#172B4D' }}>
+                  {opt}
+                </div>
+              ))}
+            </div>
           </div>
-        </div>
+        )}
 
-        <button style={{ background: '#FFD100', color: '#172B4D', border: 'none', borderRadius: '4px', padding: '12px 28px', fontWeight: 700, fontSize: '15px', cursor: 'pointer' }}>
-          Next →
-        </button>
+        {occupants === '4+' && occupancy === 'I live in it' && (
+          <div style={{ background: '#FFEBE6', border: '1px solid #FF8F73', borderRadius: '8px', padding: '14px 18px', marginTop: '20px', display: 'flex', gap: '12px' }}>
+            <span style={{ color: '#DE350B', fontSize: '18px', flexShrink: 0 }}>⚠</span>
+            <div>
+              <div style={{ fontWeight: 700, fontSize: '14px', color: '#DE350B', marginBottom: '4px' }}>Cover may not be available</div>
+              <p style={{ fontSize: '13px', color: '#172B4D', lineHeight: 1.6 }}>Homes with 4 or more unrelated occupants may not be eligible for standard cover. Please call us on <strong>08 8202 4600</strong>.</p>
+            </div>
+          </div>
+        )}
+
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '32px' }}>
+          <button onClick={() => onBack?.()} style={{ background: '#fff', color: '#172B4D', border: '1px solid #DFE1E6', borderRadius: '4px', padding: '12px 24px', fontWeight: 600, fontSize: '14px', cursor: 'pointer' }}>← Back</button>
+          <button onClick={() => onNext?.()} style={{ background: '#FFD100', color: '#172B4D', border: 'none', borderRadius: '4px', padding: '12px 32px', fontWeight: 700, fontSize: '15px', cursor: 'pointer' }}>Next →</button>
+        </div>
       </div>
     </div>
   )

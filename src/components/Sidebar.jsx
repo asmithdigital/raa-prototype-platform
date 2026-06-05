@@ -45,6 +45,13 @@ const qtbScreens = [
   { id: 'qtb-your-quote', label: 'Your quote' },
 ]
 
+const myAccountScreens = [
+  { id: 'mya-dashboard', label: 'Dashboard' },
+  { id: 'mya-personal-details', label: 'Personal details' },
+  { id: 'mya-my-products', label: 'My products' },
+  { id: 'mya-payment-details', label: 'Payment details' },
+]
+
 const appScreens = [
   { id: 'app-home', label: 'Home screen', path: 'home' },
   { id: 'app-fuel-map', label: 'Fuel prices — Map', path: 'fuel-map' },
@@ -57,7 +64,8 @@ const appScreens = [
 
 export default function Sidebar({ isOpen, onClose }) {
   const location = useLocation()
-  const [qtbOpen, setQtbOpen] = useState(location.pathname.startsWith('/web'))
+  const [qtbOpen, setQtbOpen] = useState(location.pathname.startsWith('/web/qtb'))
+  const [myaOpen, setMyaOpen] = useState(location.pathname.startsWith('/web/mya'))
 
   return (
     <nav className={`sidebar${isOpen ? ' open' : ''}`} onClick={onClose}>
@@ -66,44 +74,37 @@ export default function Sidebar({ isOpen, onClose }) {
         <NavLink to="/" end style={({ isActive }) => navLinkStyle(isActive)}>Home</NavLink>
         <NavLink to="/how-to-use" style={({ isActive }) => navLinkStyle(isActive)}>How to use</NavLink>
 
-        <div style={sectionHeader}>RAA Web</div>
+        <div style={sectionHeader}>RAA Web — QTB</div>
         <div
           onClick={() => setQtbOpen(!qtbOpen)}
-          style={{
-            ...navLinkStyle(location.pathname.startsWith('/web')),
-            cursor: 'pointer',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            userSelect: 'none',
-          }}
+          style={{ ...navLinkStyle(location.pathname.startsWith('/web/qtb')), cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'space-between', userSelect: 'none' }}
         >
           <span>Quote to Buy</span>
-          <span style={{ fontSize: '10px', color: '#5E6C84', marginRight: '4px' }}>
-            {qtbOpen ? '▲' : '▼'}
-          </span>
+          <span style={{ fontSize: '10px', color: '#5E6C84', marginRight: '4px' }}>{qtbOpen ? '▲' : '▼'}</span>
         </div>
-        {qtbOpen && qtbScreens.map((screen) => {
-          const screenPath = `/web/${screen.id.replace('qtb-', '')}`
-          const isActive = location.pathname === screenPath || location.pathname === `/web/${screen.id}`
-          return (
-            <NavLink
-              key={screen.id}
-              to={`/web/${screen.id}`}
-              style={({ isActive }) => subNavLinkStyle(isActive)}
-            >
-              {screen.label}
-            </NavLink>
-          )
-        })}
+        {qtbOpen && qtbScreens.map((screen) => (
+          <NavLink key={screen.id} to={`/web/${screen.id}`} style={({ isActive }) => subNavLinkStyle(isActive)}>
+            {screen.label}
+          </NavLink>
+        ))}
+
+        <div style={sectionHeader}>RAA Web — My Account</div>
+        <div
+          onClick={() => setMyaOpen(!myaOpen)}
+          style={{ ...navLinkStyle(location.pathname.startsWith('/web/mya')), cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'space-between', userSelect: 'none' }}
+        >
+          <span>My Account</span>
+          <span style={{ fontSize: '10px', color: '#5E6C84', marginRight: '4px' }}>{myaOpen ? '▲' : '▼'}</span>
+        </div>
+        {myaOpen && myAccountScreens.map((screen) => (
+          <NavLink key={screen.id} to={`/web/${screen.id}`} style={({ isActive }) => subNavLinkStyle(isActive)}>
+            {screen.label}
+          </NavLink>
+        ))}
 
         <div style={sectionHeader}>RAA App</div>
         {appScreens.map((screen) => (
-          <NavLink
-            key={screen.id}
-            to={`/app/${screen.path}`}
-            style={({ isActive }) => navLinkStyle(isActive)}
-          >
+          <NavLink key={screen.id} to={`/app/${screen.path}`} style={({ isActive }) => navLinkStyle(isActive)}>
             {screen.label}
           </NavLink>
         ))}
