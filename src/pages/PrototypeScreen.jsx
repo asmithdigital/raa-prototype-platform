@@ -88,7 +88,7 @@ export default function PrototypeScreen({ product }) {
   const goBack = () => prevId && navigate(`${basePath}/${prevId}`)
   const goTo = (id) => navigate(`${basePath}/${id}`)
 
-  const presentUrl = isWeb ? `/present/web/${screenId}` : `/present/app/${screenId}`
+  const presentUrl = `${import.meta.env.BASE_URL}present/${isWeb ? 'web' : 'app'}/${screenId}`
 
   if (!ScreenComponent || !screenData) {
     return (
