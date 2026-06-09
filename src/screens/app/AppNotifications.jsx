@@ -43,9 +43,14 @@ export default function AppNotifications({ onNavigate }) {
         ))}
 
         <div style={{ borderTop: '1px solid #E8E8E8', display: 'flex', justifyContent: 'space-around', padding: '8px 0 20px', background: '#fff' }}>
-          {[['🏠','Home','home'],['⛽','Fuel','fuel-map'],['🎁','Rewards','savings'],['👤','Account','my-account']].map(([icon, label, id]) => (
-            <div key={label} onClick={() => onNavigate?.(id)} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '2px', cursor: 'pointer' }}>
-              <span style={{ fontSize: '22px' }}>{icon}</span>
+          {[
+            { id: 'home', label: 'Home', icon: (c) => <svg width="22" height="22" viewBox="0 0 24 24" fill={c}><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg> },
+            { id: 'fuel-map', label: 'Fuel', icon: (c) => <svg width="22" height="22" viewBox="0 0 24 24" fill={c}><path d="M19.77 7.23l.01-.01-3.72-3.72L15 4.56l2.11 2.11c-.94.36-1.61 1.26-1.61 2.33 0 1.38 1.12 2.5 2.5 2.5.36 0 .69-.08 1-.21v7.21c0 .55-.45 1-1 1s-1-.45-1-1V14c0-1.1-.9-2-2-2h-1V5c0-1.1-.9-2-2-2H6c-1.1 0-2 .9-2 2v16h10v-7.5h1.5v5c0 1.38 1.12 2.5 2.5 2.5s2.5-1.12 2.5-2.5V9c0-.69-.28-1.32-.73-1.77zM18 10c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zM8 18v-4.5H6V18H4V5h8v13H8z"/></svg> },
+            { id: 'savings', label: 'Rewards', icon: (c) => <svg width="22" height="22" viewBox="0 0 24 24" fill={c}><path d="M20 6h-2.18c.07-.44.18-.88.18-1.36C18 2.5 15.5 0 12.46 0c-1.86 0-3.52.97-4.46 2.44L7 4H4C2.34 4 1 5.34 1 7v11c0 1.66 1.34 3 3 3h16c1.66 0 3-1.34 3-3V9c0-1.66-1.34-3-3-3zm-7.54-4c1.55 0 2.54.98 2.54 2.64 0 .58-.42 1-.96 1H8.18L10 3.35C10.58 2.5 11.49 2 12.46 2zM21 18c0 .55-.45 1-1 1H4c-.55 0-1-.45-1-1V7c0-.55.45-1 1-1h2.6L5.5 8H5v2h14V8h-.5L17.4 6H20c.55 0 1 .45 1 1v11z"/></svg> },
+            { id: 'my-account', label: 'Account', icon: (c) => <svg width="22" height="22" viewBox="0 0 24 24" fill={c}><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg> },
+          ].map(({ id, label, icon }) => (
+            <div key={label} onClick={() => onNavigate?.(id)} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '3px', cursor: 'pointer', flex: 1 }}>
+              {icon('#8993A4')}
               <span style={{ fontSize: '10px', fontWeight: 400, color: '#8993A4' }}>{label}</span>
             </div>
           ))}

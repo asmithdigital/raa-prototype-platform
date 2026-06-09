@@ -9,7 +9,7 @@ function StepperNav({ active }) {
         const isActive = i === active, isDone = i < active
         return (
           <div key={s} style={{ padding: '12px 16px 10px', fontSize: '12px', fontWeight: 600, color: isActive ? '#0052CC' : isDone ? '#36B37E' : '#8993A4', borderBottom: isActive ? '3px solid #0052CC' : '3px solid transparent', display: 'flex', alignItems: 'center', gap: '6px', whiteSpace: 'nowrap', flexShrink: 0 }}>
-            <span style={{ width: 16, height: 16, borderRadius: '50%', background: isActive ? '#0052CC' : isDone ? '#36B37E' : '#DFE1E6', color: isActive || isDone ? '#fff' : '#8993A4', fontSize: 10, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>{isDone ? '✓' : i+1}</span>
+            <span style={{ width: 20, height: 20, borderRadius: '50%', background: isActive ? '#0052CC' : isDone ? '#36B37E' : '#DFE1E6', color: isActive || isDone ? '#fff' : '#8993A4', fontSize: 11, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>{isDone ? '✓' : i+1}</span>
             {s}
           </div>
         )
@@ -157,7 +157,7 @@ export default function QTBYourQuote({ onBack }) {
               <div style={{ fontSize: '12px', color: '#5E6C84', marginTop: '6px' }}>10% RAA member discount applied</div>
             </div>
             <div style={{ padding: '20px', background: '#fff' }}>
-              <button style={{ width: '100%', background: '#FFD100', color: '#172B4D', border: 'none', borderRadius: '6px', padding: '14px', fontWeight: 700, fontSize: '16px', cursor: 'pointer', marginBottom: '10px' }}>
+              <button style={{ width: '100%', background: '#FFD100', color: '#172B4D', border: 'none', borderRadius: '6px', padding: '14px', fontWeight: 700, fontSize: '16px', cursor: 'pointer', marginBottom: '10px', letterSpacing: '0.01em' }}>
                 Buy now
               </button>
               <button style={{ width: '100%', background: '#fff', color: '#172B4D', border: '1px solid #DFE1E6', borderRadius: '6px', padding: '12px', fontWeight: 600, fontSize: '14px', cursor: 'pointer' }}>
