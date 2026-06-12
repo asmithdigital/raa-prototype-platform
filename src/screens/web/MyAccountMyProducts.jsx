@@ -10,7 +10,7 @@ function AccountLayout({ activeId, onNavigate, children }) {
     <div style={{ fontFamily: 'Inter, sans-serif', background: '#F4F5F7', minHeight: '700px', fontSize: '14px', color: '#172B4D' }}>
       <div style={{ background: '#172B4D', padding: '0 32px', height: '56px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-          <div style={{ background: '#FFD100', color: '#172B4D', padding: '4px 12px', borderRadius: '4px', fontWeight: 900, fontSize: '14px', letterSpacing: '0.05em' }}>RAA</div>
+          <div style={{ background: '#FFD100', color: '#172B4D', padding: '0 12px', height: '28px', borderRadius: '4px', fontWeight: 900, fontSize: '12px', letterSpacing: '0.08em', display: 'flex', alignItems: 'center' }}>RAA</div>
           <span style={{ color: '#fff', fontSize: '14px', fontWeight: 500 }}>My account</span>
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>

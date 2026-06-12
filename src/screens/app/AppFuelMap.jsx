@@ -116,8 +116,8 @@ export default function AppFuelMap({ onNavigate }) {
           <div style={{ fontSize: '12px', background: '#E3FCEF', color: '#36B37E', padding: '4px 10px', borderRadius: '12px', fontWeight: 600 }}>4¢/L off with RAA</div>
         </div>
         <div style={{ display: 'flex', gap: '10px', paddingBottom: '4px' }}>
-          <button style={{ flex: 1, background: '#172B4D', color: '#FFD100', border: 'none', borderRadius: '12px', padding: '14px', fontWeight: 700, fontSize: '15px', cursor: 'pointer' }}>Get directions</button>
-          <button style={{ width: '52px', background: '#F4F5F7', border: 'none', borderRadius: '12px', padding: '14px', fontSize: '20px', cursor: 'pointer' }}>♥</button>
+          <button style={{ flex: 1, background: '#172B4D', color: '#FFD100', border: 'none', borderRadius: '12px', padding: '14px', fontWeight: 700, fontSize: '15px', cursor: 'pointer', letterSpacing: '0.01em' }}>Get directions</button>
+          <button style={{ width: '52px', background: '#F4F5F7', border: '1px solid #E8E8E8', borderRadius: '12px', padding: '14px', fontSize: '20px', cursor: 'pointer' }}>♥</button>
         </div>
         <TabBar active="fuel-map" onNavigate={onNavigate} />
       </div>

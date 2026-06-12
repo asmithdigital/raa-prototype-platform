@@ -6,7 +6,7 @@ function StatusBar({ dark }) {
       <div style={{ display: 'flex', gap: '5px', alignItems: 'center' }}>
         <svg width="16" height="12" viewBox="0 0 16 12" fill={c}><rect x="0" y="3" width="3" height="9" rx="1"/><rect x="4.5" y="2" width="3" height="10" rx="1"/><rect x="9" y="0" width="3" height="12" rx="1"/><rect x="13.5" y="0" width="2.5" height="12" rx="1"/></svg>
         <svg width="16" height="12" viewBox="0 0 16 12" fill={c}><path d="M8 2.5C10.2 2.5 12.2 3.4 13.6 4.9L15 3.5C13.2 1.7 10.7 0.5 8 0.5C5.3 0.5 2.8 1.7 1 3.5L2.4 4.9C3.8 3.4 5.8 2.5 8 2.5Z"/><path d="M8 5.5C9.5 5.5 10.9 6.1 11.9 7.1L13.3 5.7C12 4.4 10.1 3.5 8 3.5C5.9 3.5 4 4.4 2.7 5.7L4.1 7.1C5.1 6.1 6.5 5.5 8 5.5Z"/><circle cx="8" cy="10" r="1.5"/></svg>
-        <span style={{ fontSize: '12px', color: c }}>🔋</span>
+        <svg width="25" height="12" viewBox="0 0 25 12" fill="none"><rect x="0.5" y="1" width="20" height="10" rx="2" stroke={c} strokeWidth="1"/><rect x="21.5" y="3.5" width="2.5" height="5" rx="1" fill={c}/><rect x="2" y="2.5" width="14" height="7" rx="1.5" fill={c}/></svg>
       </div>
     </div>
   )
@@ -52,7 +52,7 @@ export default function AppHome({ onNavigate }) {
         <div style={{ padding: '4px 20px 16px' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
             <div>
-              <div style={{ background: '#172B4D', color: '#FFD100', padding: '3px 10px', borderRadius: '4px', fontSize: '13px', fontWeight: 900, display: 'inline-block', letterSpacing: '0.05em' }}>RAA</div>
+              <div style={{ background: '#172B4D', color: '#FFD100', padding: '0 10px', height: '26px', borderRadius: '4px', fontSize: '12px', fontWeight: 900, display: 'inline-flex', alignItems: 'center', letterSpacing: '0.08em' }}>RAA</div>
               <div style={{ fontSize: '22px', fontWeight: 700, color: '#172B4D', marginTop: '12px' }}>Hi Alex 👋</div>
               <div style={{ fontSize: '13px', color: '#42526E', marginTop: '2px' }}>Member #1234567</div>
             </div>

@@ -31,7 +31,8 @@ function TabBar({ active, onNavigate }) {
 export default function AppSavings({ onNavigate, onBack }) {
   return (
     <div style={{ fontFamily: 'Inter, -apple-system, sans-serif', background: '#F5F5F0', minHeight: '100%', fontSize: '14px', color: '#172B4D' }}>
-      <div style={{ background: '#FFD100' }}>
+      <div style={{ background: 'linear-gradient(140deg, #FFD100 55%, #FFC000 100%)', position: 'relative', overflow: 'hidden', paddingBottom: '36px' }}>
+        <div style={{ position: 'absolute', bottom: '-1px', left: 0, right: 0, height: '36px', background: '#F5F5F0', clipPath: 'polygon(0 100%, 100% 0, 100% 100%)' }} />
         <div style={{ height: '50px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 20px', paddingTop: '14px' }}>
           <span style={{ fontSize: '15px', fontWeight: 700, color: '#172B4D' }}>9:41</span>
           <div style={{ display: 'flex', gap: '5px', alignItems: 'center' }}>
@@ -44,14 +45,14 @@ export default function AppSavings({ onNavigate, onBack }) {
           <div onClick={() => onBack?.() || onNavigate?.('my-account')} style={{ position: 'absolute', left: '16px', color: '#172B4D', fontSize: '16px', fontWeight: 400, cursor: 'pointer' }}>‹</div>
           <span style={{ fontWeight: 700, fontSize: '17px', color: '#172B4D' }}>My savings</span>
         </div>
-        <div style={{ padding: '20px 20px 44px', textAlign: 'center' }}>
+        <div style={{ padding: '20px 20px 28px', textAlign: 'center', position: 'relative' }}>
           <div style={{ fontSize: '13px', color: '#42526E', marginBottom: '8px' }}>You've saved this year</div>
           <div style={{ fontSize: '54px', fontWeight: 800, color: '#172B4D', lineHeight: 1 }}>$1,243</div>
           <div style={{ fontSize: '13px', color: '#42526E', marginTop: '8px' }}>with RAA benefits and discounts</div>
         </div>
       </div>
 
-      <div style={{ background: '#fff', borderRadius: '20px 20px 0 0', marginTop: '-24px' }}>
+      <div style={{ background: '#fff', borderRadius: '20px 20px 0 0', marginTop: '-8px' }}>
         <div style={{ padding: '24px 20px 8px' }}>
           <div style={{ fontWeight: 600, fontSize: '11px', color: '#9CA3AF', textTransform: 'uppercase', letterSpacing: '0.08em' }}>RAA Rewards</div>
         </div>
