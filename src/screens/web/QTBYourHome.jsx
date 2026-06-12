@@ -4,13 +4,15 @@ const STEPS = ['General information','Your home','Your contents','Policy holders
 
 function StepperNav({ active }) {
   return (
-    <div style={{ display: 'flex', background: '#fff', borderBottom: '1px solid #DFE1E6', padding: '0 32px', overflowX: 'auto', scrollbarWidth: 'none' }}>
+    <div style={{ width: '200px', flexShrink: 0, borderRight: '1px solid #DFE1E6', background: '#FAFBFC', paddingTop: '8px', alignSelf: 'stretch' }}>
       {STEPS.map((s, i) => {
         const isActive = i === active, isDone = i < active
         return (
-          <div key={s} style={{ padding: '12px 16px 10px', fontSize: '12px', fontWeight: 600, color: isActive ? '#0052CC' : isDone ? '#36B37E' : '#8993A4', borderBottom: isActive ? '3px solid #0052CC' : '3px solid transparent', display: 'flex', alignItems: 'center', gap: '6px', whiteSpace: 'nowrap', flexShrink: 0 }}>
-            <span style={{ width: 22, height: 22, borderRadius: '50%', background: isActive ? '#0052CC' : isDone ? '#36B37E' : '#DFE1E6', color: isActive || isDone ? '#fff' : '#8993A4', fontSize: 11, fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>{isDone ? '✓' : i+1}</span>
-            {s}
+          <div key={s} style={{ padding: '12px 16px', display: 'flex', alignItems: 'flex-start', gap: '10px', background: isActive ? '#EBF2FF' : 'transparent', borderLeft: isActive ? '3px solid #0052CC' : '3px solid transparent' }}>
+            <span style={{ width: 22, height: 22, borderRadius: '50%', background: isActive ? '#0052CC' : isDone ? '#36B37E' : '#DFE1E6', color: isActive || isDone ? '#fff' : '#8993A4', fontSize: 11, fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, marginTop: '1px' }}>
+              {isDone ? '✓' : i + 1}
+            </span>
+            <span style={{ fontSize: '13px', fontWeight: isActive ? 600 : 400, color: isActive ? '#0052CC' : isDone ? '#36B37E' : '#6B778C', lineHeight: 1.4 }}>{s}</span>
           </div>
         )
       })}
@@ -54,11 +56,13 @@ export default function QTBYourHome({ onNext, onBack }) {
         <div style={{ minWidth: '48px', height: '28px', background: '#FFD100', borderRadius: '4px', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '0 12px', fontSize: '12px', fontWeight: 900, color: '#172B4D', letterSpacing: '0.08em' }}>RAA</div>
         <span style={{ color: '#fff', fontSize: '14px', fontWeight: 500 }}>Home insurance quote</span>
       </div>
-      <div style={{ background: '#FFD100', padding: '16px 32px' }}>
+      <div style={{ background: '#FFD100', padding: '20px 32px' }}>
         <div style={{ fontSize: '12px', fontWeight: 700, color: '#172B4D', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '4px' }}>Step 2 of 5</div>
         <div style={{ fontSize: '22px', fontWeight: 700, color: '#172B4D' }}>Your home</div>
       </div>
-      <StepperNav active={1} />
+      <div style={{ display: 'flex', alignItems: 'flex-start' }}>
+        <StepperNav active={1} />
+        <div style={{ flex: 1, minWidth: 0 }}>
       <div style={{ padding: '32px' }}>
         <h2 style={{ fontSize: '18px', fontWeight: 700, marginBottom: '24px' }}>Tell us about your home</h2>
 
@@ -85,6 +89,8 @@ export default function QTBYourHome({ onNext, onBack }) {
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <button onClick={() => onBack?.()} style={{ background: '#fff', color: '#172B4D', border: '1px solid #DFE1E6', borderRadius: '4px', padding: '12px 24px', fontWeight: 600, fontSize: '14px', cursor: 'pointer' }}>← Back</button>
           <button onClick={handleNext} style={{ background: '#FFD100', color: '#172B4D', border: 'none', borderRadius: '6px', padding: '12px 32px', fontWeight: 700, fontSize: '15px', cursor: 'pointer' }}>Next →</button>
+        </div>
+      </div>
         </div>
       </div>
     </div>

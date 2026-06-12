@@ -141,8 +141,10 @@ export default function PresentMode({ product }) {
 
   if (isWeb) {
     return (
-      <div style={{ position: 'fixed', inset: 0, background: '#fff', overflowY: 'auto', zIndex: 1000 }}>
-        <ScreenComponent onNext={goNext} onBack={goBack} onNavigate={goTo} />
+      <div style={{ position: 'fixed', inset: 0, background: '#1A1A1A', overflowY: 'auto', zIndex: 1000, display: 'flex', justifyContent: 'center' }}>
+        <div style={{ width: '100%', maxWidth: '1200px', background: '#fff', minHeight: '100%' }}>
+          <ScreenComponent onNext={goNext} onBack={goBack} onNavigate={goTo} />
+        </div>
         <HoverExit onExit={exitPresent} />
       </div>
     )
